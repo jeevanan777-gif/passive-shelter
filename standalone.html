@@ -1,0 +1,4057 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Passive Shelter Designer | Thermal Comfort Maintenance Tool</title>
+  
+  <!-- Google Fonts: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  
+  <!-- CSS Stylesheet -->
+  <style>
+/* ==========================================================================
+   PASSIVE SHELTER DESIGNER - Professional Engineering UI Stylesheet
+   CAD Dark Theme with High-Precision Typography & Responsive Grid
+   ========================================================================== */
+
+:root {
+  --bg-primary: #0a0d14;
+  --bg-surface: #111726;
+  --bg-card: #161f33;
+  --bg-card-hover: #1c2740;
+  --bg-input: #0e1422;
+  --border-subtle: #222d42;
+  --border-focus: #38bdf8;
+  --text-main: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --accent-cyan: #38bdf8;
+  --accent-blue: #2563eb;
+  --accent-emerald: #10b981;
+  --accent-amber: #f59e0b;
+  --accent-rose: #f43f5e;
+  --accent-orange: #f97316;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --shadow-card: 0 4px 20px -2px rgba(0, 0, 0, 0.45);
+  --shadow-glow: 0 0 15px rgba(56, 189, 248, 0.25);
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-primary);
+  color: var(--text-main);
+  line-height: 1.5;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* App Shell Layout */
+.app-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Sidebar */
+.app-sidebar {
+  width: 270px;
+  background-color: var(--bg-surface);
+  border-right: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  z-index: 50;
+}
+
+.sidebar-header {
+  padding: 24px 20px 18px 20px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.brand-badge {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--accent-cyan);
+  background: rgba(56, 189, 248, 0.12);
+  padding: 3px 8px;
+  border-radius: 4px;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  border: 1px solid rgba(56, 189, 248, 0.3);
+}
+
+.brand-title {
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.brand-subtitle {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 4px;
+  line-height: 1.35;
+}
+
+/* Sidebar Nav */
+.sidebar-nav {
+  padding: 16px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  overflow-y: auto;
+  flex-grow: 1;
+}
+
+.sidebar-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: var(--radius-sm);
+  transition: all 0.15s ease;
+}
+
+.sidebar-nav-item:hover {
+  background-color: var(--bg-card);
+  color: #ffffff;
+}
+
+.sidebar-nav-item.active {
+  background-color: rgba(56, 189, 248, 0.15);
+  color: var(--accent-cyan);
+  font-weight: 600;
+  border-left: 3px solid var(--accent-cyan);
+}
+
+.sidebar-nav-icon {
+  font-size: 16px;
+  width: 20px;
+  text-align: center;
+}
+
+.sidebar-footer {
+  padding: 16px;
+  border-top: 1px solid var(--border-subtle);
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.model-disclaimer-box {
+  background: rgba(245, 158, 11, 0.08);
+  border: 1px solid rgba(245, 158, 11, 0.25);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  font-size: 11px;
+  color: #fde68a;
+  line-height: 1.35;
+}
+
+.model-disclaimer-box strong {
+  color: #fbbf24;
+  display: block;
+  margin-bottom: 2px;
+}
+
+/* Main Content Area */
+.app-main {
+  flex-grow: 1;
+  background-color: var(--bg-primary);
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* Top Action Header */
+.app-topbar {
+  background-color: var(--bg-surface);
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 14px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 40;
+}
+
+.project-meta-heading {
+  display: flex;
+  flex-direction: column;
+}
+
+.project-meta-heading h1 {
+  font-size: 16px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.project-meta-sub {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 18px;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  user-select: none;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+  color: #ffffff;
+  border-color: #38bdf8;
+  box-shadow: 0 2px 10px rgba(2, 132, 199, 0.4);
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #0369a1 0%, #075985 100%);
+  border-color: #7dd3fc;
+  box-shadow: 0 4px 15px rgba(2, 132, 199, 0.6);
+}
+
+.btn-run-big {
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  color: #ffffff;
+  padding: 13px 28px;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  border-radius: var(--radius-md);
+  border: 1px solid #60a5fa;
+  box-shadow: 0 4px 20px rgba(37, 99, 235, 0.5);
+  width: 100%;
+  justify-content: center;
+}
+
+.btn-run-big:hover {
+  background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 24px rgba(37, 99, 235, 0.7);
+}
+
+.btn-secondary {
+  background-color: var(--bg-card);
+  color: var(--text-main);
+  border-color: var(--border-subtle);
+}
+
+.btn-secondary:hover {
+  background-color: var(--bg-card-hover);
+  border-color: var(--accent-cyan);
+}
+
+.btn-outline {
+  background-color: transparent;
+  color: var(--text-secondary);
+  border-color: var(--border-subtle);
+}
+
+.btn-outline:hover {
+  color: #ffffff;
+  border-color: var(--text-secondary);
+}
+
+/* Main Content Body */
+.app-content {
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+/* Sections */
+.app-panel-section {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  box-shadow: var(--shadow-card);
+}
+
+.section-title-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.section-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.section-subtitle {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+/* KPI Cards Grid */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 16px;
+}
+
+.kpi-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.kpi-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(56, 189, 248, 0.4);
+}
+
+.kpi-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.kpi-value {
+  font-size: 26px;
+  font-weight: 800;
+  font-family: var(--font-mono);
+  color: #ffffff;
+  margin: 8px 0 4px 0;
+}
+
+.kpi-value.accent-cyan { color: var(--accent-cyan); }
+.kpi-value.accent-emerald { color: var(--accent-emerald); }
+.kpi-value.accent-rose { color: var(--accent-rose); }
+.kpi-value.accent-amber { color: var(--accent-amber); }
+
+.kpi-subtext {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.kpi-badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+.badge-success { background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4); }
+.badge-warning { background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.4); }
+.badge-danger { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.4); }
+.badge-info { background: rgba(56, 189, 248, 0.2); color: #7dd3fc; border: 1px solid rgba(56, 189, 248, 0.4); }
+
+/* Dashboard Dual Layout: 3D Viewport & Primary Inputs */
+.dashboard-workspace-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 24px;
+}
+
+@media (max-width: 1200px) {
+  .dashboard-workspace-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* 3D Viewport Box */
+.viewport-3d-box {
+  background: #0f1522;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  min-height: 420px;
+}
+
+.viewport-toolbar {
+  background: rgba(17, 23, 38, 0.85);
+  backdrop-filter: blur(8px);
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border-subtle);
+  z-index: 10;
+}
+
+.viewport-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.viewport-tools-group {
+  display: flex;
+  gap: 6px;
+}
+
+.btn-tool {
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-subtle);
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-tool:hover, .btn-tool.active {
+  background: var(--accent-cyan);
+  color: #0b0f19;
+  border-color: var(--accent-cyan);
+}
+
+.canvas-container {
+  flex-grow: 1;
+  width: 100%;
+  height: 380px;
+  position: relative;
+}
+
+.viewport-footer {
+  background: rgba(17, 23, 38, 0.85);
+  backdrop-filter: blur(8px);
+  padding: 8px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid var(--border-subtle);
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.sun-slider-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Forms & Sliders */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.form-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.form-control {
+  background-color: var(--bg-input);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  color: #ffffff;
+  padding: 9px 12px;
+  font-size: 13px;
+  font-family: var(--font-sans);
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+
+.form-control:focus {
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.2);
+}
+
+.slider-sync-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+input[type="range"] {
+  flex-grow: 1;
+  accent-color: var(--accent-cyan);
+  height: 5px;
+  background: #1e293b;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.input-num-compact {
+  width: 76px;
+  padding: 6px 8px;
+  text-align: right;
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+
+/* Cards & Badges in inputs */
+.property-pill {
+  font-size: 11px;
+  font-family: var(--font-mono);
+  background: rgba(56, 189, 248, 0.1);
+  color: var(--accent-cyan);
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid rgba(56, 189, 248, 0.25);
+}
+
+/* Chart Canvas Wrapper */
+.chart-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+}
+
+.chart-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.chart-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.chart-canvas-box {
+  position: relative;
+  width: 100%;
+  height: 290px;
+}
+
+.chart-canvas-box.tall {
+  height: 340px;
+}
+
+/* Thermal Comfort Assessment Block */
+.comfort-summary-card {
+  background: linear-gradient(180deg, rgba(22, 31, 51, 0.9) 0%, rgba(15, 23, 42, 0.95) 100%);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 20px;
+}
+
+.comfort-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.comfort-score {
+  font-size: 24px;
+  font-weight: 800;
+  color: #ffffff;
+  font-family: var(--font-mono);
+}
+
+.comfort-score .unit {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.comfort-limits-bar {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  color: var(--text-secondary);
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.comfort-description {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-bottom: 16px;
+}
+
+.meta-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 12px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.meta-item {
+  font-size: 12px;
+  color: var(--text-secondary);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.meta-item strong {
+  color: #ffffff;
+  font-family: var(--font-mono);
+  font-size: 14px;
+}
+
+/* Comparison Table */
+.table-responsive {
+  overflow-x: auto;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+}
+
+.engineering-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  text-align: left;
+}
+
+.engineering-table th, .engineering-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.engineering-table th {
+  background-color: var(--bg-card);
+  color: var(--text-secondary);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.cfg-header {
+  position: relative;
+  min-width: 220px;
+}
+
+.cfg-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.cfg-subtitle {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.btn-remove-cfg {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 4px;
+}
+
+.btn-remove-cfg:hover {
+  color: var(--accent-rose);
+}
+
+.engineering-table tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
+.section-divider {
+  background-color: #0d121c;
+  font-weight: 700;
+  color: var(--accent-cyan);
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 0.05em;
+}
+
+.param-name {
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.best-val {
+  background-color: rgba(16, 185, 129, 0.1);
+  color: #34d399;
+}
+
+.best-badge {
+  font-size: 10px;
+  font-weight: 700;
+  background: rgba(16, 185, 129, 0.2);
+  color: #34d399;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-left: 4px;
+}
+
+.unit-pill {
+  font-size: 10px;
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+}
+
+/* Tooltip / Helper */
+.tooltip-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #242f45;
+  color: var(--text-secondary);
+  font-size: 10px;
+  cursor: help;
+  margin-left: 4px;
+}
+
+/* Toast Notifications */
+#app-toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background-color: var(--bg-card);
+  color: #ffffff;
+  border: 1px solid var(--accent-cyan);
+  padding: 12px 20px;
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  font-weight: 600;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), var(--shadow-glow);
+  transform: translateY(100px);
+  opacity: 0;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 1000;
+  pointer-events: none;
+}
+
+#app-toast.toast-show {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Spinner */
+.spinner {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: #ffffff;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Formula & Methodology Cards */
+.methodology-block {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 18px 22px;
+  margin-bottom: 16px;
+}
+
+.methodology-block h4 {
+  color: var(--accent-cyan);
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.methodology-block p {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.55;
+  margin-bottom: 8px;
+}
+
+.formula-display {
+  background: #0b0f19;
+  border-left: 3px solid var(--accent-cyan);
+  padding: 10px 14px;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: #e2e8f0;
+  margin: 10px 0;
+  overflow-x: auto;
+}
+
+/* Print Stylesheet for Reports */
+@media print {
+  body {
+    background: #ffffff;
+    color: #000000;
+  }
+  .app-sidebar, .app-topbar, .viewport-3d-box, .btn, #app-toast {
+    display: none !important;
+  }
+  .app-main {
+    padding: 0;
+  }
+  .app-panel-section {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    margin-bottom: 20px;
+    page-break-inside: avoid;
+  }
+  .kpi-card {
+    background: #f8fafc;
+    border: 1px solid #cbd5e1;
+    color: #000000;
+  }
+  .kpi-value {
+    color: #000000 !important;
+  }
+}
+
+</style>
+
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  
+  <!-- Three.js & OrbitControls CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+</head>
+<body>
+
+<div class="app-container">
+  
+  <!-- Left Engineering Sidebar -->
+  <aside class="app-sidebar">
+    <div class="sidebar-header">
+      <div class="brand-badge">Passive Solar CAD</div>
+      <div class="brand-title">
+        <span>🏛️</span> SHELTER DESIGNER
+      </div>
+      <div class="brand-subtitle">
+        Thermal Comfort Maintenance Engineering Software
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a href="#section-dashboard" class="sidebar-nav-item active" data-target="dashboard">
+        <span class="sidebar-nav-icon">📊</span>
+        <span>Dashboard Overview</span>
+      </a>
+      <a href="#section-site-climate" class="sidebar-nav-item" data-target="site-climate">
+        <span class="sidebar-nav-icon">☀️</span>
+        <span>Site & Climate</span>
+      </a>
+      <a href="#section-shelter-geometry" class="sidebar-nav-item" data-target="shelter-geometry">
+        <span class="sidebar-nav-icon">📐</span>
+        <span>Shelter Geometry</span>
+      </a>
+      <a href="#section-materials" class="sidebar-nav-item" data-target="materials">
+        <span class="sidebar-nav-icon">🧱</span>
+        <span>Materials Library</span>
+      </a>
+      <a href="#section-thermal-results" class="sidebar-nav-item" data-target="thermal-results">
+        <span class="sidebar-nav-icon">📈</span>
+        <span>Thermal Analysis</span>
+      </a>
+      <a href="#section-design-comparison" class="sidebar-nav-item" data-target="design-comparison">
+        <span class="sidebar-nav-icon">⚖️</span>
+        <span>Design Comparison</span>
+      </a>
+      <a href="#section-about-project" class="sidebar-nav-item" data-target="about-project">
+        <span class="sidebar-nav-icon">ℹ️</span>
+        <span>Project & Methodology</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="model-disclaimer-box">
+        <strong>⚠️ Academic Prototype Notice</strong>
+        Calculations represent First-Principles Heat Balance Estimates (ASHRAE/ISO 13792). Not ANSYS/CFD. Labeled as <em>“Estimated / Model-based Results”</em>.
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Work Area -->
+  <main class="app-main">
+    
+    <!-- Top Action Bar -->
+    <header class="app-topbar">
+      <div class="project-meta-heading">
+        <h1>Software Based Model Development for Design of Area-Specific Shelter</h1>
+        <div class="project-meta-sub">
+          Objective: Area-Specific Passive Shelter Design & Thermal Comfort Maintenance
+        </div>
+      </div>
+
+      <div class="topbar-actions">
+        <button class="btn btn-secondary" id="btn-reset-defaults" title="Reset all inputs to baseline defaults">
+          <span>🔄</span> Reset
+        </button>
+        <button class="btn btn-secondary" id="btn-export-results" title="Export CSV dataset of 24h simulation">
+          <span>📥</span> Export CSV
+        </button>
+        <button class="btn btn-outline" id="btn-print-report" title="Print full engineering report">
+          <span>🖨️</span> Print Report
+        </button>
+        <button class="btn btn-primary" id="btn-run-simulation-top">
+          <span>⚡</span> Run Simulation
+        </button>
+      </div>
+    </header>
+
+    <div class="app-content">
+
+      <!-- 1. DASHBOARD & 3D WORKSPACE -->
+      <section class="app-panel-section" id="section-dashboard">
+        <div class="section-title-bar">
+          <div>
+            <div class="section-title">
+              <span>🖥️</span> Interactive 3D Shelter & Simulation Console
+            </div>
+            <div class="section-subtitle">
+              Real-time procedural 3D model updating dynamically with dimensions, materials, solar angle, and orientation.
+            </div>
+          </div>
+          <button class="btn btn-secondary btn-tool" id="btn-save-comparison">
+            <span>💾</span> Save to Comparison
+          </button>
+        </div>
+
+        <div class="dashboard-workspace-grid">
+          
+          <!-- 3D Canvas Box -->
+          <div class="viewport-3d-box">
+            <div class="viewport-toolbar">
+              <div class="viewport-title">
+                <span>🧊</span> 3D WebGL Shelter Visualizer
+              </div>
+              <div class="viewport-tools-group">
+                <button class="btn-tool" id="btn-camera-reset" title="Isometric View">Isometric</button>
+                <button class="btn-tool" id="btn-camera-front" title="Front Elevation View">Front</button>
+                <button class="btn-tool" id="btn-camera-top" title="Top Down Plan View">Plan</button>
+                <button class="btn-tool" id="btn-toggle-heatmap" title="Toggle Solar Heatmap Colors">🌡️ Heatmap Mode</button>
+              </div>
+            </div>
+
+            <!-- Three.js Canvas Container -->
+            <div class="canvas-container" id="viewer3d-container"></div>
+
+            <div class="viewport-footer">
+              <div class="sun-slider-wrapper">
+                <span>☀️ Sun Position (Hour):</span>
+                <input type="range" id="sun-hour-slider" min="6" max="18" value="12" step="1">
+                <strong id="sun-hour-label" style="font-family: var(--font-mono); color: var(--accent-cyan);">12:00</strong>
+              </div>
+              <div>
+                <span>🧭 Red Arrow = True North (0°)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Simulation Controls & Fast Tweaks -->
+          <div style="display: flex; flex-direction: column; gap: 16px;">
+            
+            <div style="background: var(--bg-card); padding: 18px; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
+              <h4 style="font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between;">
+                <span>⚡ Active Design Snapshot</span>
+                <span class="property-pill" id="badge-u-roof">U-roof: --</span>
+              </h4>
+
+              <div class="form-group">
+                <label class="form-label" for="climate-preset">
+                  <span>Site & Climate Preset</span>
+                </label>
+                <select class="form-control" id="climate-preset"></select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="wall-material">
+                  <span>Wall Material</span>
+                  <span class="property-pill" id="badge-u-wall">U-wall: --</span>
+                </label>
+                <select class="form-control" id="wall-material"></select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="roof-material">
+                  <span>Roof Material & Coating</span>
+                </label>
+                <select class="form-control" id="roof-material"></select>
+              </div>
+
+              <div style="margin-top: 18px;">
+                <button class="btn btn-run-big" id="btn-run-simulation">
+                  🚀 RUN THERMAL ANALYSIS
+                </button>
+                <div style="font-size: 11px; text-align: center; color: var(--text-muted); margin-top: 8px;">
+                  Calculates 24-hr energy balance, sol-air temp, decrement factor & comfort hours
+                </div>
+              </div>
+            </div>
+
+            <!-- Material Details Preview Box -->
+            <div style="background: var(--bg-card); padding: 14px 18px; border-radius: var(--radius-md); border: 1px solid var(--border-subtle); flex-grow: 1;">
+              <h4 style="font-size: 12px; font-weight: 700; color: var(--text-secondary); margin-bottom: 10px; text-transform: uppercase;">
+                Thermophysical Properties in Use
+              </h4>
+              <div id="material-details-summary" style="font-size: 12px; display: flex; flex-direction: column; gap: 6px;">
+                <!-- Populated dynamically -->
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- 2. SIMULATION RESULTS: 8 KPI CARDS -->
+      <section class="app-panel-section" id="section-thermal-results">
+        <div class="section-title-bar">
+          <div>
+            <div class="section-title">
+              <span>📊</span> Thermal Analysis Results Dashboard
+            </div>
+            <div class="section-subtitle">
+              Calculated Outputs (Estimated / Model-based Results) from 24-Hour Lumped Heat Balance
+            </div>
+          </div>
+          <span class="kpi-badge badge-info">First-Principles Energy Balance</span>
+        </div>
+
+        <div class="kpi-grid">
+          <!-- KPI 1 -->
+          <div class="kpi-card">
+            <div class="kpi-label">
+              <span>Mean Indoor Temp</span>
+              <span>🌡️</span>
+            </div>
+            <div class="kpi-value accent-cyan" id="kpi-mean-temp">-- °C</div>
+            <div class="kpi-subtext">24-hr diurnal average</div>
+          </div>
+
+          <!-- KPI 2 -->
+          <div class="kpi-card">
+            <div class="kpi-label">
+              <span>Maximum Indoor Temp</span>
+              <span>🔥</span>
+            </div>
+            <div class="kpi-value accent-rose" id="kpi-max-temp">-- °C</div>
+            <div class="kpi-subtext">Peak solar hour condition</div>
+          </div>
+
+          <!-- KPI 3 -->
+          <div class="kpi-card">
+            <div class="kpi-label">
+              <span>Minimum Indoor Temp</span>
+              <span>❄️</span>
+            </div>
+            <div class="kpi-value" id="kpi-min-temp">-- °C</div>
+            <div class="kpi-subtext">Early morning condition</div>
+          </div>
+
+          <!-- KPI 4 -->
+          <div class="kpi-card">
+            <div class="kpi-label">
+              <span>Temperature Swing</span>
+              <span>〰️</span>
+            </div>
+            <div class="kpi-value accent-amber" id="kpi-temp-swing">-- °C</div>
+            <div class="kpi-subtext" id="kpi-decrement-factor">Decrement factor: f = --</div>
+          </div>
+
+          <!-- KPI 5 -->
+          <div class="kpi-card">
+            <div class="kpi-label">
+              <span>Solar Heat Gain (Glazing)</span>
+              <span>☀️</span>
+            </div>
+            <div class="kpi-value" id="kpi-solar-gain">-- kWh/d</div>
+            <div class="kpi-subtext">Transmitted window radiation</div>
+          </div>
+
+          <!-- KPI 6 -->
+          <div class="kpi-card">
+            <div class="kpi-label">
+              <span>Total Heat Gain</span>
+              <span>🔺</span>
+            </div>
+            <div class="kpi-value accent-rose" id="kpi-total-gain">-- kWh/d</div>
+            <div class="kpi-subtext">Envelope + Vent + Radiation</div>
+          </div>
+
+          <!-- KPI 7 -->
+          <div class="kpi-card">
+            <div class="kpi-label">
+              <span>Total Heat Loss</span>
+              <span>🔻</span>
+            </div>
+            <div class="kpi-value accent-cyan" id="kpi-total-loss">-- kWh/d</div>
+            <div class="kpi-subtext">Night radiation + Vent + Ground</div>
+          </div>
+
+          <!-- KPI 8 -->
+          <div class="kpi-card">
+            <div class="kpi-label">
+              <span>Estimated Comfort Hours</span>
+              <span>✨</span>
+            </div>
+            <div class="kpi-value accent-emerald" id="kpi-comfort-hours">-- hrs/day</div>
+            <div class="kpi-subtext">
+              <span class="kpi-badge badge-success" id="kpi-comfort-badge">Evaluating</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 24-Hour Graph & Heat Balance Breakdown -->
+        <div style="display: grid; grid-template-columns: 1.4fr 1fr; gap: 20px; margin-top: 24px;">
+          
+          <!-- 24h Diurnal Temperature Curve -->
+          <div class="chart-card">
+            <div class="chart-header">
+              <div class="chart-title">📈 24-Hour Diurnal Temperature Profile vs Adaptive Comfort Zone</div>
+              <span class="property-pill">ASHRAE 55 / IMAC Band</span>
+            </div>
+            <div class="chart-canvas-box tall">
+              <canvas id="chart-24h-temp"></canvas>
+            </div>
+          </div>
+
+          <!-- Component Heat Gain/Loss Breakdown -->
+          <div class="chart-card">
+            <div class="chart-header">
+              <div class="chart-title">⚖️ Component Heat Gain & Loss Breakdown (kWh/day)</div>
+              <span class="property-pill">Energy Balance</span>
+            </div>
+            <div class="chart-canvas-box tall">
+              <canvas id="chart-heat-breakdown"></canvas>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Adaptive Comfort Assessment Box -->
+        <div class="comfort-summary-card" style="margin-top: 24px;">
+          <h4 style="font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 12px; text-transform: uppercase;">
+            🎯 Adaptive Thermal Comfort & Passive Performance Assessment
+          </h4>
+          <div id="comfort-assessment-summary">
+            <!-- Populated dynamically -->
+          </div>
+        </div>
+
+      </section>
+
+      <!-- 3. SITE & CLIMATE INPUTS -->
+      <section class="app-panel-section" id="section-site-climate">
+        <div class="section-title-bar">
+          <div>
+            <div class="section-title">
+              <span>🌍</span> Site & Climatic Boundary Conditions
+            </div>
+            <div class="section-subtitle">
+              Location-specific meteorological parameters defining the ambient thermal environment.
+            </div>
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label" for="location-name">
+              <span>Location / Site Name</span>
+            </label>
+            <input type="text" class="form-control" id="location-name" value="Hot & Dry Region">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="ambient-temp">
+              <span>Mean Ambient Temperature (°C)</span>
+              <span class="tooltip-icon" title="Daily mean outdoor air temperature">?</span>
+            </label>
+            <input type="number" class="form-control" id="ambient-temp" step="0.5" min="-20" max="55" value="41.5">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="diurnal-range">
+              <span>Outdoor Temperature Variation (°C)</span>
+              <span class="tooltip-icon" title="Day-to-night temperature swing (Tmax - Tmin)">?</span>
+            </label>
+            <input type="number" class="form-control" id="diurnal-range" step="0.5" min="2" max="25" value="14.5">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="solar-radiation">
+              <span>Peak Solar Radiation (W/m²)</span>
+              <span class="tooltip-icon" title="Peak global horizontal solar irradiance at solar noon">?</span>
+            </label>
+            <input type="number" class="form-control" id="solar-radiation" step="20" min="200" max="1200" value="880">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="relative-humidity">
+              <span>Relative Humidity (%)</span>
+              <span class="tooltip-icon" title="Average relative humidity during the simulation period">?</span>
+            </label>
+            <input type="number" class="form-control" id="relative-humidity" step="1" min="5" max="100" value="22">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="wind-speed">
+              <span>Wind Speed (m/s)</span>
+              <span class="tooltip-icon" title="Local ambient wind speed for ventilation & infiltration">?</span>
+            </label>
+            <input type="number" class="form-control" id="wind-speed" step="0.2" min="0" max="15" value="3.2">
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. SHELTER GEOMETRY -->
+      <section class="app-panel-section" id="section-shelter-geometry">
+        <div class="section-title-bar">
+          <div>
+            <div class="section-title">
+              <span>📐</span> Shelter Geometry & Orientation
+            </div>
+            <div class="section-subtitle">
+              Adjust dimensions, fenestration areas, roof morphology, and cardinal orientation.
+            </div>
+          </div>
+        </div>
+
+        <div class="form-grid">
+          
+          <!-- Length -->
+          <div class="form-group">
+            <label class="form-label">Length (m)</label>
+            <div class="slider-sync-group">
+              <input type="range" id="geom-length-range" min="2" max="15" step="0.5" value="5.0">
+              <input type="number" class="form-control input-num-compact" id="geom-length" step="0.1" min="1" max="20" value="5.0">
+            </div>
+          </div>
+
+          <!-- Width -->
+          <div class="form-group">
+            <label class="form-label">Width (m)</label>
+            <div class="slider-sync-group">
+              <input type="range" id="geom-width-range" min="2" max="15" step="0.5" value="4.0">
+              <input type="number" class="form-control input-num-compact" id="geom-width" step="0.1" min="1" max="20" value="4.0">
+            </div>
+          </div>
+
+          <!-- Height -->
+          <div class="form-group">
+            <label class="form-label">Height (m)</label>
+            <div class="slider-sync-group">
+              <input type="range" id="geom-height-range" min="2.0" max="6.0" step="0.1" value="3.0">
+              <input type="number" class="form-control input-num-compact" id="geom-height" step="0.1" min="1.8" max="8.0" value="3.0">
+            </div>
+          </div>
+
+          <!-- Wall Thickness -->
+          <div class="form-group">
+            <label class="form-label">Wall Thickness (m)</label>
+            <div class="slider-sync-group">
+              <input type="range" id="geom-wall-thick-range" min="0.10" max="0.50" step="0.01" value="0.23">
+              <input type="number" class="form-control input-num-compact" id="geom-wall-thick" step="0.01" min="0.05" max="0.80" value="0.23">
+            </div>
+          </div>
+
+          <!-- Roof Thickness -->
+          <div class="form-group">
+            <label class="form-label">Roof Thickness (m)</label>
+            <div class="slider-sync-group">
+              <input type="range" id="geom-roof-thick-range" min="0.02" max="0.30" step="0.01" value="0.15">
+              <input type="number" class="form-control input-num-compact" id="geom-roof-thick" step="0.01" min="0.01" max="0.50" value="0.15">
+            </div>
+          </div>
+
+          <!-- Window Opening Area -->
+          <div class="form-group">
+            <label class="form-label">Window / Opening Area (m²)</label>
+            <div class="slider-sync-group">
+              <input type="range" id="geom-window-area-range" min="0.5" max="8.0" step="0.1" value="2.2">
+              <input type="number" class="form-control input-num-compact" id="geom-window-area" step="0.1" min="0" max="20" value="2.2">
+            </div>
+          </div>
+
+          <!-- Door Area -->
+          <div class="form-group">
+            <label class="form-label">Door Area (m²)</label>
+            <div class="slider-sync-group">
+              <input type="range" id="geom-door-area-range" min="1.0" max="4.0" step="0.1" value="1.8">
+              <input type="number" class="form-control input-num-compact" id="geom-door-area" step="0.1" min="0" max="6" value="1.8">
+            </div>
+          </div>
+
+          <!-- Orientation -->
+          <div class="form-group">
+            <label class="form-label">Orientation (0° = North, 90° = East, 180° = South)</label>
+            <div class="slider-sync-group">
+              <input type="range" id="geom-orientation-range" min="0" max="355" step="5" value="0">
+              <input type="number" class="form-control input-num-compact" id="geom-orientation" step="5" min="0" max="360" value="0">
+            </div>
+          </div>
+
+          <!-- Roof Type -->
+          <div class="form-group">
+            <label class="form-label" for="geom-roof-type">Roof Type</label>
+            <select class="form-control" id="geom-roof-type">
+              <option value="flat">Flat Roof (Overhang Slab)</option>
+              <option value="gable">Gable / Pitched Roof (25° slope)</option>
+              <option value="shed">Shed / Monopitch Roof (15° slope)</option>
+            </select>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- 5. MATERIALS LIBRARY -->
+      <section class="app-panel-section" id="section-materials">
+        <div class="section-title-bar">
+          <div>
+            <div class="section-title">
+              <span>🧱</span> Building Envelope Materials Library
+            </div>
+            <div class="section-subtitle">
+              Realistic physical properties: Thermal conductivity (k), density (ρ), specific heat (cp), and solar absorptivity (α).
+            </div>
+          </div>
+        </div>
+
+        <div class="form-grid">
+          
+          <div class="form-group">
+            <label class="form-label" for="floor-material">
+              <span>Ground Floor Construction</span>
+              <span class="property-pill" id="badge-u-floor">U-floor: --</span>
+            </label>
+            <select class="form-control" id="floor-material"></select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="glazing-type">
+              <span>Glazing / Window Type</span>
+              <span class="property-pill" id="badge-u-win">U-win: --</span>
+            </label>
+            <select class="form-control" id="glazing-type"></select>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- 6. DESIGN COMPARISON SECTION -->
+      <section class="app-panel-section" id="section-design-comparison">
+        <div class="section-title-bar">
+          <div>
+            <div class="section-title">
+              <span>⚖️</span> Multi-Design Comparison & Benchmarking
+            </div>
+            <div class="section-subtitle">
+              Save and compare up to 4 shelter design configurations side-by-side to evaluate passive performance.
+            </div>
+          </div>
+        </div>
+
+        <!-- Comparative Chart -->
+        <div class="chart-card" style="margin-bottom: 24px;">
+          <div class="chart-header">
+            <div class="chart-title">📈 24-Hour Indoor Temperature Curves: Comparative Overlay</div>
+            <span class="property-pill">Multi-Variant Benchmark</span>
+          </div>
+          <div class="chart-canvas-box">
+            <canvas id="chart-comparison"></canvas>
+          </div>
+        </div>
+
+        <!-- Comparison Table Container -->
+        <div id="comparison-table-container">
+          <!-- Populated dynamically by comparison.js -->
+        </div>
+      </section>
+
+      <!-- 7. ABOUT PROJECT & METHODOLOGY -->
+      <section class="app-panel-section" id="section-about-project">
+        <div class="section-title-bar">
+          <div>
+            <div class="section-title">
+              <span>📚</span> Project Objective, Governing Equations & Methodology
+            </div>
+            <div class="section-subtitle">
+              Documentation of the mathematical physics model and academic assumptions.
+            </div>
+          </div>
+        </div>
+
+        <div class="methodology-block">
+          <h4>Project Title & Objective</h4>
+          <p>
+            <strong>Project Title:</strong> <em>“Software Based Model Development for Design of Area-Specific Shelter for Thermal Comfort Maintenance”</em>
+          </p>
+          <p>
+            <strong>Objective:</strong> To develop a software-based passive shelter design and thermal-comfort analysis tool. The tool allows students and engineers to enter area-specific climate conditions, shelter geometry, orientation, and construction materials, then execute a dynamic thermal analysis to evaluate indoor thermal comfort.
+          </p>
+        </div>
+
+        <div class="methodology-block">
+          <h4>1. Dynamic Energy Balance & Lumped Thermal Capacitance Model</h4>
+          <p>
+            The building indoor air and internal envelope layers are modeled as a lumped dynamic thermal capacitance node governed by the first law of thermodynamics:
+          </p>
+          <div class="formula-display">
+            C_eff · (dT_in / dt) = Q_walls(t) + Q_roof(t) + Q_floor(t) + Q_win(t) + Q_vent(t) + Q_int
+          </div>
+          <p>
+            where <code>C_eff = C_air + 0.30 · C_envelope</code> (J/K) represents the participating thermal storage mass of the shelter, and <code>dt = 900 seconds</code> (15-minute discrete time steps). The simulation executes through 3 consecutive 24-hour cycles to eliminate initial condition bias and attain true periodic steady-state.
+          </p>
+        </div>
+
+        <div class="methodology-block">
+          <h4>2. Sol-Air Temperature Formulation</h4>
+          <p>
+            Solar radiation absorbed on exterior opaque surfaces (walls and roof) is converted to an equivalent sol-air temperature ($T_{sol-air}$) according to ASHRAE fundamentals:
+          </p>
+          <div class="formula-display">
+            T_sol-air(t) = T_out(t) + [α · I_surf(t) / h_o] - [ε · ΔR / h_o]
+          </div>
+          <p>
+            where <code>α</code> is the surface solar absorptivity, <code>I_surf(t)</code> is the hourly incident solar radiation on the oriented surface (W/m²), <code>h_o ≈ 22.7 W/m²·K</code> is the exterior convective heat transfer coefficient, and <code>ε·ΔR/h_o ≈ 4°C</code> accounts for nocturnal long-wave radiation heat rejection to the sky.
+          </p>
+        </div>
+
+        <div class="methodology-block">
+          <h4>3. Decrement Factor (f) and Thermal Time Lag (ϕ)</h4>
+          <p>
+            Thermal inertia performance is quantified through two dimensionless/temporal parameters:
+          </p>
+          <div class="formula-display">
+            Decrement Factor: f = (T_in,max - T_in,min) / (T_out,max - T_out,min)
+            <br>
+            Time Lag (ϕ): ϕ = Hour(T_in,max) - Hour(T_out,max)  [hours]
+          </div>
+          <p>
+            High thermal mass envelopes (e.g., CSEB, Adobe, dense Stone) yield low decrement factors ($f < 0.45$) and significant time lags ($\phi \ge 4\text{ hours}$), shifting daytime heat peaks into the cooler evening.
+          </p>
+        </div>
+
+        <div class="methodology-block">
+          <h4>4. Adaptive Thermal Comfort (ASHRAE Standard 55 & IMAC)</h4>
+          <p>
+            In naturally ventilated shelters, occupant thermal neutrality adapts to prevailing outdoor mean temperatures ($T_{out,mean}$):
+          </p>
+          <div class="formula-display">
+            Neutral Comfort Temperature: T_neutral = 17.8 + 0.31 · T_out,mean (°C)
+            <br>
+            80% Acceptability Comfort Limits: T_neutral ± 3.5 °C
+          </div>
+          <p>
+            Any hour where $T_{in}(t)$ falls within this range is counted as an "Estimated Comfort Hour".
+          </p>
+        </div>
+
+        <div class="methodology-block" style="border-color: rgba(245, 158, 11, 0.4); background: rgba(245, 158, 11, 0.05);">
+          <h4 style="color: #fbbf24;">Engineering Prototype Disclaimer</h4>
+          <p>
+            This application is an educational and design prototype developed for academic and conceptual passive solar analysis. It utilizes simplified, transparent first-principles heat transfer equations. It does not replace multi-million cell 3D Computational Fluid Dynamics (CFD) or finite-element transient thermal simulations (such as ANSYS Fluent or EnergyPlus). All calculated numerical outputs are explicitly designated as <strong>“Estimated / Model-based Results”</strong>.
+          </p>
+        </div>
+
+      </section>
+
+    </div>
+  </main>
+
+</div>
+
+<!-- Application JavaScript Modules -->
+<script>
+/**
+ * PASSIVE SHELTER DESIGNER - Materials Database
+ * Realistic thermophysical properties for building envelope components.
+ * 
+ * Properties:
+ * - k: Thermal conductivity (W/m·K)
+ * - rho: Density (kg/m³)
+ * - cp: Specific heat capacity (J/kg·K)
+ * - alpha: Solar absorptivity (0 to 1, fraction of solar radiation absorbed)
+ * - defaultThickness: Typical construction thickness in meters (m)
+ * - description: Engineering description and typical application
+ */
+
+const MATERIALS_DATABASE = {
+  walls: {
+    brick_common: {
+      name: "Standard Burnt Clay Brick",
+      k: 0.81,
+      rho: 1800,
+      cp: 840,
+      alpha: 0.70,
+      defaultThickness: 0.23, // 230mm (9-inch wall)
+      color: "#b2533e",
+      description: "Traditional fired clay masonry with high thermal mass, common in composite and hot-dry climates."
+    },
+    cseb: {
+      name: "Compressed Stabilized Earth Block (CSEB)",
+      k: 0.95,
+      rho: 1950,
+      cp: 920,
+      alpha: 0.60,
+      defaultThickness: 0.24, // 240mm
+      color: "#c29b6e",
+      description: "Low embodied energy earth block stabilized with 5-8% cement. Excellent thermal inertia and humidity moderation."
+    },
+    adobe_mud: {
+      name: "Traditional Adobe / Sun-Dried Mud",
+      k: 0.55,
+      rho: 1500,
+      cp: 1050,
+      alpha: 0.55,
+      defaultThickness: 0.30, // 300mm thick traditional wall
+      color: "#a88358",
+      description: "High volumetric heat capacity earth construction. Delivers significant thermal lag in arid climates."
+    },
+    aac_block: {
+      name: "Autoclaved Aerated Concrete (AAC)",
+      k: 0.16,
+      rho: 600,
+      cp: 1000,
+      alpha: 0.50,
+      defaultThickness: 0.20, // 200mm
+      color: "#cfd3d7",
+      description: "Lightweight cellular block with high thermal resistance (low U-value) but lower thermal capacitance."
+    },
+    stone_masonry: {
+      name: "Random Rubble Stone Masonry",
+      k: 1.80,
+      rho: 2400,
+      cp: 880,
+      alpha: 0.65,
+      defaultThickness: 0.38, // 380mm thick stone wall
+      color: "#8c8d8f",
+      description: "Very high density natural stone. High thermal inertia, typical in mountainous or rocky regions."
+    },
+    cavity_insulated: {
+      name: "Brick Cavity Wall with EPS Insulation",
+      k: 0.12, // effective overall
+      rho: 1400,
+      cp: 900,
+      alpha: 0.65,
+      defaultThickness: 0.28, // 115mm brick + 50mm EPS + 115mm brick
+      color: "#d97757",
+      description: "High performance dual-leaf masonry with 50mm expanded polystyrene core, combining resistance and mass."
+    },
+    rammed_earth: {
+      name: "Monolithic Rammed Earth",
+      k: 0.85,
+      rho: 2000,
+      cp: 1000,
+      alpha: 0.58,
+      defaultThickness: 0.35, // 350mm
+      color: "#b0895c",
+      description: "Compacted subsoil wall with massive thermal damping, evening out day-night temperature swings."
+    },
+    bamboo_wattle: {
+      name: "Bamboo / Wattle & Daub (Lightweight)",
+      k: 0.25,
+      rho: 750,
+      cp: 1200,
+      alpha: 0.45,
+      defaultThickness: 0.10, // 100mm
+      color: "#d6bc82",
+      description: "Lightweight breathable organic envelope suitable for warm-humid tropical regions requiring high cross-ventilation."
+    }
+  },
+
+  roofs: {
+    rcc_slab: {
+      name: "RCC Slab (Concrete 150mm)",
+      k: 1.58,
+      rho: 2400,
+      cp: 880,
+      alpha: 0.72,
+      defaultThickness: 0.15,
+      color: "#7e8287",
+      description: "Standard reinforced concrete roof slab. High heat gain during peak sun without reflective coating."
+    },
+    cool_roof: {
+      name: "RCC Slab with Cool Roof / High-Albedo Coating",
+      k: 1.58,
+      rho: 2400,
+      cp: 880,
+      alpha: 0.20, // High solar reflectance (albedo ~ 0.80)
+      defaultThickness: 0.15,
+      color: "#f8f9fa",
+      description: "Concrete slab finished with white reflective coating. Drastically reduces sol-air temperature and solar peak loads."
+    },
+    clay_tiles: {
+      name: "Mangalore Clay Tiles on Timber Rafters",
+      k: 0.80,
+      rho: 1900,
+      cp: 800,
+      alpha: 0.65,
+      defaultThickness: 0.05,
+      color: "#c05634",
+      description: "Traditional sloping clay tile roofing with ventilated air cavity underneath."
+    },
+    cgi_sheet: {
+      name: "Corrugated Galvanized Iron (CGI) Sheet (Uninsulated)",
+      k: 50.0, // Sheet metal
+      rho: 7800,
+      cp: 480,
+      alpha: 0.68,
+      defaultThickness: 0.005, // 5mm sheet equivalent
+      color: "#a4b0be",
+      description: "Common low-cost roofing. Highly conductive with virtually zero thermal mass, prone to rapid indoor overheating."
+    },
+    insulated_sandwich: {
+      name: "PIR Insulated Sandwich Panel (50mm)",
+      k: 0.024,
+      rho: 40,
+      cp: 1400,
+      alpha: 0.35,
+      defaultThickness: 0.05,
+      color: "#e2e8f0",
+      description: "Engineered polyisocyanurate (PIR) modular roofing with excellent thermal insulation and low U-value."
+    },
+    thatch_bamboo: {
+      name: "Traditional Thatch & Bamboo",
+      k: 0.07,
+      rho: 220,
+      cp: 1800,
+      alpha: 0.50,
+      defaultThickness: 0.15,
+      color: "#bfa15f",
+      description: "Natural organic thatch roof with low thermal conductivity and porous breathing properties."
+    }
+  },
+
+  floors: {
+    concrete_ground: {
+      name: "Concrete Slab on Grade (100mm)",
+      k: 1.40,
+      rho: 2300,
+      cp: 880,
+      defaultThickness: 0.10,
+      description: "Direct ground-coupled concrete slab providing thermal sink cooling into subsoil."
+    },
+    mud_compacted: {
+      name: "Compacted Earth / Mud Plaster Floor",
+      k: 0.70,
+      rho: 1600,
+      cp: 1000,
+      defaultThickness: 0.12,
+      description: "Traditional breathable floor with moderate thermal coupling to ground."
+    },
+    stone_tiles: {
+      name: "Natural Stone / Kota Stone Flooring",
+      k: 2.10,
+      rho: 2600,
+      cp: 820,
+      defaultThickness: 0.07,
+      description: "Dense stone tile over sand-cement screed. Excellent thermal storage and cool feel underfoot."
+    },
+    raised_timber: {
+      name: "Raised Timber Floor (Ventilated Subfloor)",
+      k: 0.14,
+      rho: 600,
+      cp: 1600,
+      defaultThickness: 0.05,
+      description: "Elevated wooden deck, uncoupled from ground temperature, typical in humid stilt shelters."
+    }
+  },
+
+  glazing: {
+    single_clear: {
+      name: "Single Glazing (4mm Clear Glass)",
+      uValue: 5.7,
+      shgc: 0.85, // Solar Heat Gain Coefficient
+      vlt: 0.90   // Visible Light Transmittance
+    },
+    double_clear: {
+      name: "Double Glazed Unit (6-12-6 Air)",
+      uValue: 2.8,
+      shgc: 0.70,
+      vlt: 0.80
+    },
+    low_e_double: {
+      name: "Double Glazed Low-E (Argon Filled)",
+      uValue: 1.6,
+      shgc: 0.40,
+      vlt: 0.65
+    }
+  }
+};
+
+/**
+ * Surface heat transfer coefficients (W/m²·K)
+ * Standard building physics values (ISO 6946 / ASHRAE Fundamentals)
+ */
+const SURFACE_RESISTANCES = {
+  Rsi_wall: 0.13,       // Inside surface resistance for horizontal heat flow
+  Rso_wall: 0.04,       // Outside surface resistance (wind speed ~ 3-4 m/s)
+  Rsi_roof_up: 0.10,    // Inside surface resistance for upward heat flow (cooling season)
+  Rsi_roof_down: 0.17,  // Inside surface resistance for downward heat flow
+  Rso_roof: 0.04,       // Outside roof surface resistance
+  Rsi_floor: 0.17,      // Inside floor surface resistance
+  R_ground: 0.50        // Effective sub-slab ground soil resistance
+};
+
+/**
+ * Calculate overall thermal transmittance U-value (W/m²·K)
+ * U = 1 / (Rsi + sum(d_i / k_i) + Rso)
+ */
+function calculateOpaqueUValue(materialKey, category, thicknessMeters) {
+  const mat = MATERIALS_DATABASE[category][materialKey];
+  if (!mat) return 1.5;
+
+  const t = thicknessMeters || mat.defaultThickness;
+  const R_material = t / Math.max(mat.k, 0.01);
+
+  let R_total = 0;
+  if (category === 'walls') {
+    R_total = SURFACE_RESISTANCES.Rsi_wall + R_material + SURFACE_RESISTANCES.Rso_wall;
+  } else if (category === 'roofs') {
+    R_total = SURFACE_RESISTANCES.Rsi_roof_up + R_material + SURFACE_RESISTANCES.Rso_roof;
+  } else if (category === 'floors') {
+    R_total = SURFACE_RESISTANCES.Rsi_floor + R_material + SURFACE_RESISTANCES.R_ground;
+  }
+
+  return Number((1 / Math.max(R_total, 0.05)).toFixed(3));
+}
+
+/**
+ * Calculate volumetric heat capacity (kJ/m³·K)
+ */
+function calculateVolumetricHeatCapacity(materialKey, category) {
+  const mat = MATERIALS_DATABASE[category][materialKey];
+  if (!mat) return 1500;
+  return Number(((mat.rho * mat.cp) / 1000).toFixed(1));
+}
+
+/**
+ * PASSIVE SHELTER DESIGNER - Climate & Solar Radiation Module
+ * Provides area-specific climatic presets and hourly solar geometry calculations.
+ */
+
+const CLIMATE_PRESETS = {
+  hot_dry: {
+    id: "hot_dry",
+    name: "Hot & Dry (e.g., Jodhpur / Jaisalmer / Phoenix)",
+    location: "Arid Desert Zone",
+    latitude: 26.3, // deg N
+    ambientTemp: 41.5, // °C peak summer design day
+    diurnalRange: 14.5, // °C day-night swing
+    relativeHumidity: 22, // %
+    peakSolarRadiation: 880, // W/m² global horizontal
+    windSpeed: 3.2, // m/s
+    groundTemp: 27.0, // °C undisturbed ground temperature at 1.5m
+    description: "High daytime solar radiation, large diurnal temperature swing, low humidity. High thermal mass and night flush ventilation are prime passive strategies."
+  },
+  warm_humid: {
+    id: "warm_humid",
+    name: "Warm & Humid (e.g., Chennai / Mumbai / Kochi)",
+    location: "Coastal Tropical Zone",
+    latitude: 13.1,
+    ambientTemp: 34.5,
+    diurnalRange: 6.5,
+    relativeHumidity: 78,
+    peakSolarRadiation: 750,
+    windSpeed: 4.5,
+    groundTemp: 29.0,
+    description: "High relative humidity with low diurnal temperature swing. Thermal mass provides little benefit; continuous cross-ventilation, shading, and lightweight construction are critical."
+  },
+  composite: {
+    id: "composite",
+    name: "Composite (e.g., New Delhi / Nagpur / Jaipur)",
+    location: "Continental Transition Zone",
+    latitude: 28.6,
+    ambientTemp: 39.0,
+    diurnalRange: 11.5,
+    relativeHumidity: 45,
+    peakSolarRadiation: 820,
+    windSpeed: 2.8,
+    groundTemp: 26.5,
+    description: "Experiences both hot-dry summers and cold winters. Requires versatile passive strategies: high thermal mass for summer swing damping and solar heat gain during cooler months."
+  },
+  cold: {
+    id: "cold",
+    name: "Cold & High-Altitude (e.g., Leh / Shimla / Srinagar)",
+    location: "Himalayan Alpine Zone",
+    latitude: 34.2,
+    ambientTemp: 14.0,
+    diurnalRange: 15.0,
+    relativeHumidity: 35,
+    peakSolarRadiation: 920, // High clear-sky solar at high elevation
+    windSpeed: 3.8,
+    groundTemp: 8.0,
+    description: "Low ambient temperatures with strong direct solar radiation. Prime passive strategies: direct solar gain through south-facing glazing, high insulation, and draft-proofing."
+  },
+  temperate: {
+    id: "temperate",
+    name: "Temperate / Moderate (e.g., Bengaluru / Pune)",
+    location: "Plateau Highland Zone",
+    latitude: 12.9,
+    ambientTemp: 30.5,
+    diurnalRange: 9.0,
+    relativeHumidity: 55,
+    peakSolarRadiation: 780,
+    windSpeed: 3.0,
+    groundTemp: 24.0,
+    description: "Mild comfortable conditions throughout most of the year. Minimal heating or cooling required; natural ventilation and standard shading are sufficient."
+  },
+  custom: {
+    id: "custom",
+    name: "Custom Location / Site Conditions",
+    location: "User Defined Site",
+    latitude: 20.0,
+    ambientTemp: 35.0,
+    diurnalRange: 10.0,
+    relativeHumidity: 50,
+    peakSolarRadiation: 800,
+    windSpeed: 3.0,
+    groundTemp: 25.0,
+    description: "Fully customizable parameters for specific regional microclimates or experimental weather station data."
+  }
+};
+
+/**
+ * Generates 24 hourly ambient outdoor temperatures (°C)
+ * Standard ASHRAE sinusoidal diurnal model:
+ * Minimum temp occurs near sunrise (~06:00), maximum temp occurs at ~15:00 (3 PM).
+ */
+function get24HourOutdoorTemperatures(meanTemp, diurnalRange) {
+  const temps = [];
+  const minTemp = meanTemp - (diurnalRange / 2);
+  const maxTemp = meanTemp + (diurnalRange / 2);
+
+  for (let hour = 0; hour < 24; hour++) {
+    // Phase shift so minimum is at 6:00 and maximum is at 15:00
+    // At hour 15: (15 - 9) * pi / 12 = 6 * pi / 12 = pi / 2 -> sin(pi/2) = 1 (Max)
+    // At hour 6:  (6 - 9) * pi / 12 = -3 * pi / 12 = -pi / 4 ...
+    // Using standard standard meteorological diurnal approximation:
+    const angle = (2 * Math.PI * (hour - 9)) / 24;
+    const t = meanTemp + (diurnalRange / 2) * Math.sin(angle);
+    temps.push(Number(t.toFixed(2)));
+  }
+  return temps;
+}
+
+/**
+ * Calculate solar position and hourly solar irradiance on oriented surfaces (W/m²)
+ * @param {number} latitude - Latitude in degrees
+ * @param {number} peakRadiation - Peak global horizontal radiation (W/m²)
+ * @param {number} shelterOrientation - Degrees clockwise from North (0° = North, 90° = East, 180° = South, 270° = West)
+ * @param {string} roofType - 'flat', 'gable', or 'shed'
+ */
+function get24HourSolarIrradiance(latitude, peakRadiation, shelterOrientation = 0, roofType = 'flat') {
+  // Assume summer solstice design condition (Declination delta ~ +23.45° for peak cooling analysis)
+  const delta = 23.45 * (Math.PI / 180);
+  const phi = latitude * (Math.PI / 180);
+  
+  const hourlyData = [];
+
+  for (let hour = 0; hour < 24; hour++) {
+    // Solar hour angle omega: 12:00 = 0 rad, 15° per hour
+    const omega = ((hour + 0.5) - 12) * 15 * (Math.PI / 180);
+
+    // Solar altitude beta (angle above horizon)
+    const sinBeta = Math.sin(phi) * Math.sin(delta) + Math.cos(phi) * Math.cos(delta) * Math.cos(omega);
+    const beta = Math.asin(Math.max(-1, Math.min(1, sinBeta))); // Solar altitude in radians
+    
+    // Solar azimuth gamma_s (measured from South in standard solar equations, converted to clockwise from North)
+    let solarAzimuthDeg = 180; // Default south at noon
+    if (beta > 0) {
+      const cosGamma = (Math.sin(beta) * Math.sin(phi) - Math.sin(delta)) / (Math.cos(beta) * Math.cos(phi));
+      const clampedCos = Math.max(-1, Math.min(1, cosGamma));
+      let gammaRad = Math.acos(clampedCos);
+      if (omega < 0) { // Morning (East of south)
+        solarAzimuthDeg = 180 - (gammaRad * 180 / Math.PI);
+      } else { // Afternoon (West of south)
+        solarAzimuthDeg = 180 + (gammaRad * 180 / Math.PI);
+      }
+    }
+
+    let globalHorizontal = 0;
+    let directNormal = 0;
+    let diffuseHorizontal = 0;
+
+    if (beta > 0.05) { // Sun is above horizon
+      // Sinusoidal bell curve for solar radiation matching peakRadiation
+      const sunHeightFactor = Math.sin(beta);
+      globalHorizontal = peakRadiation * Math.pow(sunHeightFactor, 1.15);
+      diffuseHorizontal = globalHorizontal * (0.18 + 0.15 * (1 - sunHeightFactor));
+      directNormal = (globalHorizontal - diffuseHorizontal) / Math.max(0.1, sunHeightFactor);
+    }
+
+    // Now calculate incident irradiance on each oriented vertical surface
+    // Wall azimuths (relative to North) rotated by shelterOrientation:
+    // Front Wall: shelterOrientation
+    // Right Wall: shelterOrientation + 90
+    // Back Wall: shelterOrientation + 180
+    // Left Wall: shelterOrientation + 270
+
+    const calcVerticalWallIrradiance = (surfaceAzimuthDeg) => {
+      if (beta <= 0) return 0;
+      // Incident angle theta
+      const deltaAzimuth = (solarAzimuthDeg - surfaceAzimuthDeg) * (Math.PI / 180);
+      const cosTheta = Math.cos(beta) * Math.cos(deltaAzimuth);
+      const directOnWall = cosTheta > 0 ? directNormal * cosTheta : 0;
+      // Ground reflected component (albedo ~ 0.20) + diffuse sky component
+      const diffuseOnWall = diffuseHorizontal * 0.5 + globalHorizontal * 0.20 * 0.5;
+      return Math.max(0, directOnWall + diffuseOnWall);
+    };
+
+    // Calculate for Cardinal directions (North: 0°, East: 90°, South: 180°, West: 270°)
+    const northIrradiance = calcVerticalWallIrradiance(0);
+    const eastIrradiance = calcVerticalWallIrradiance(90);
+    const southIrradiance = calcVerticalWallIrradiance(180);
+    const westIrradiance = calcVerticalWallIrradiance(270);
+
+    // Calculate for shelter specific walls
+    const frontWallIrradiance = calcVerticalWallIrradiance(shelterOrientation);
+    const rightWallIrradiance = calcVerticalWallIrradiance((shelterOrientation + 90) % 360);
+    const backWallIrradiance = calcVerticalWallIrradiance((shelterOrientation + 180) % 360);
+    const leftWallIrradiance = calcVerticalWallIrradiance((shelterOrientation + 270) % 360);
+
+    // Average wall irradiance weighted by exposure
+    const avgWallIrradiance = (frontWallIrradiance + rightWallIrradiance + backWallIrradiance + leftWallIrradiance) / 4;
+
+    // Roof irradiance
+    let roofIrradiance = globalHorizontal;
+    if (roofType === 'gable') {
+      // 25 degree pitch gable
+      const pitchRad = 25 * (Math.PI / 180);
+      // Effective combination of two slopes
+      roofIrradiance = globalHorizontal * Math.cos(pitchRad) + avgWallIrradiance * Math.sin(pitchRad) * 0.4;
+    } else if (roofType === 'shed') {
+      // 15 degree mono slope facing shelterOrientation
+      const pitchRad = 15 * (Math.PI / 180);
+      roofIrradiance = globalHorizontal * Math.cos(pitchRad) + frontWallIrradiance * Math.sin(pitchRad);
+    }
+
+    hourlyData.push({
+      hour,
+      betaDeg: Number((beta * 180 / Math.PI).toFixed(1)),
+      solarAzimuthDeg: Number(solarAzimuthDeg.toFixed(1)),
+      globalHorizontal: Number(globalHorizontal.toFixed(1)),
+      diffuseHorizontal: Number(diffuseHorizontal.toFixed(1)),
+      roofIrradiance: Number(roofIrradiance.toFixed(1)),
+      avgWallIrradiance: Number(avgWallIrradiance.toFixed(1)),
+      frontWallIrradiance: Number(frontWallIrradiance.toFixed(1)),
+      rightWallIrradiance: Number(rightWallIrradiance.toFixed(1)),
+      backWallIrradiance: Number(backWallIrradiance.toFixed(1)),
+      leftWallIrradiance: Number(leftWallIrradiance.toFixed(1)),
+      northIrradiance: Number(northIrradiance.toFixed(1)),
+      southIrradiance: Number(southIrradiance.toFixed(1)),
+      eastIrradiance: Number(eastIrradiance.toFixed(1)),
+      westIrradiance: Number(westIrradiance.toFixed(1))
+    });
+  }
+
+  return hourlyData;
+}
+
+/**
+ * PASSIVE SHELTER DESIGNER - Thermal Simulation Engine
+ * Transparent lumped-parameter dynamic energy balance model.
+ * 
+ * DISCLAIMER:
+ * This is an academic engineering prototype model based on first-principles
+ * building physics (ASHRAE Fundamentals / ISO 13792). All outputs are 
+ * labeled as "Estimated / Model-based Results" and are intended for 
+ * passive design optimization and comparative analysis.
+ */
+
+class ThermalSimulationEngine {
+  /**
+   * Run full dynamic 24-hour thermal simulation
+   * @param {Object} climate - Climate parameters
+   * @param {Object} geometry - Shelter dimensions and openings
+   * @param {Object} materials - Selected material keys and thicknesses
+   * @returns {Object} Comprehensive simulation results, time-series, and KPIs
+   */
+  static runSimulation(climate, geometry, materials) {
+    // 1. Unpack and validate geometry
+    const length = Math.max(1, Number(geometry.length) || 5.0);
+    const width = Math.max(1, Number(geometry.width) || 4.0);
+    const height = Math.max(1.8, Number(geometry.height) || 3.0);
+    const orientation = (Number(geometry.orientation) || 0) % 360;
+    const roofType = geometry.roofType || 'flat';
+    const windowArea = Math.min(Number(geometry.windowArea) || 2.0, (length * height) * 0.7);
+    const doorArea = Math.min(Number(geometry.doorArea) || 1.8, (width * height) * 0.5);
+
+    // Derived geometric quantities
+    const floorArea = length * width; // m²
+    const volume = floorArea * height; // m³
+    
+    // Wall areas based on orientation
+    // Front and Back walls have length L; Left and Right walls have width W
+    const areaFront = length * height - (windowArea * 0.7 + doorArea * 0.5);
+    const areaBack = length * height - (windowArea * 0.3);
+    const areaRight = width * height;
+    const areaLeft = width * height - (doorArea * 0.5);
+    const totalWallArea = 2 * (length + width) * height - (windowArea + doorArea);
+
+    // Roof area adjusted for pitch
+    let roofArea = floorArea;
+    if (roofType === 'gable') {
+      roofArea = floorArea / Math.cos(25 * Math.PI / 180); // 25 deg pitch
+    } else if (roofType === 'shed') {
+      roofArea = floorArea / Math.cos(15 * Math.PI / 180); // 15 deg pitch
+    }
+
+    // 2. Unpack Materials & Thermophysical Properties
+    const wallMat = MATERIALS_DATABASE.walls[materials.wallMaterial] || MATERIALS_DATABASE.walls.brick_common;
+    const roofMat = MATERIALS_DATABASE.roofs[materials.roofMaterial] || MATERIALS_DATABASE.roofs.rcc_slab;
+    const floorMat = MATERIALS_DATABASE.floors[materials.floorMaterial] || MATERIALS_DATABASE.floors.concrete_ground;
+    const glazing = MATERIALS_DATABASE.glazing[materials.glazingType || 'single_clear'] || MATERIALS_DATABASE.glazing.single_clear;
+
+    const wallThickness = Number(geometry.wallThickness) || wallMat.defaultThickness;
+    const roofThickness = Number(geometry.roofThickness) || roofMat.defaultThickness;
+    const floorThickness = floorMat.defaultThickness;
+
+    // Calculate overall U-values (W/m²·K)
+    const U_wall = calculateOpaqueUValue(materials.wallMaterial, 'walls', wallThickness);
+    const U_roof = calculateOpaqueUValue(materials.roofMaterial, 'roofs', roofThickness);
+    const U_floor = calculateOpaqueUValue(materials.floorMaterial, 'floors', floorThickness);
+    const U_win = glazing.uValue;
+    const SHGC = glazing.shgc;
+
+    const alpha_wall = wallMat.alpha;
+    const alpha_roof = roofMat.alpha;
+    const h_o = 22.7; // Exterior surface convection + radiation coefficient (W/m²·K)
+
+    // 3. Thermal Capacitance (Thermal Mass)
+    // Active internal thermal mass layer (effective depth approx. 100mm or half thickness)
+    const d_eff_wall = Math.min(wallThickness / 2, 0.10);
+    const d_eff_roof = Math.min(roofThickness / 2, 0.08);
+    const d_eff_floor = Math.min(floorThickness, 0.08);
+
+    const massWall = totalWallArea * d_eff_wall * wallMat.rho;
+    const massRoof = roofArea * d_eff_roof * roofMat.rho;
+    const massFloor = floorArea * d_eff_floor * floorMat.rho;
+
+    const C_envelope = (massWall * wallMat.cp) + (massRoof * roofMat.cp) + (massFloor * floorMat.cp); // J/K
+    const C_air = volume * 1.204 * 1005; // Air: density 1.204 kg/m³, cp 1005 J/kg·K
+    
+    // Effective lumped room capacitance (active participation factor)
+    const C_eff = C_air + 0.30 * C_envelope; // Joules per Kelvin
+
+    // 4. Climate & Diurnal Profile
+    const ambientMean = Number(climate.ambientTemp);
+    const diurnalRange = Number(climate.diurnalRange);
+    const peakSolar = Number(climate.peakSolarRadiation);
+    const windSpeed = Number(climate.windSpeed);
+    const groundTemp = Number(climate.groundTemp) || (ambientMean - 2.0);
+
+    const outdoorTemps = get24HourOutdoorTemperatures(ambientMean, diurnalRange);
+    const solarData = get24HourSolarIrradiance(climate.latitude || 25.0, peakSolar, orientation, roofType);
+
+    // Ventilation calculation
+    // Air changes per hour: Base infiltration + wind-driven ventilation through openable area
+    const openableWindowArea = windowArea * 0.5; // Assume 50% openable operable sash
+    const Cv = 0.35; // Effectiveness of opening for natural cross ventilation
+    const naturalACH = (Cv * openableWindowArea * windSpeed * 3600) / Math.max(volume, 10);
+    const baseInfiltrationACH = 0.5; // Background infiltration ACH
+    const totalACH = Math.min(25.0, baseInfiltrationACH + naturalACH); // Limit to realistic 25 ACH max
+
+    const mdot_cp_vent = (1.204 * 1005 * (totalACH * volume)) / 3600; // W/K
+
+    // 5. Dynamic Numerical Integration (3 consecutive 24-hr cycles to reach periodic steady-state)
+    const timeStepsPerHour = 4; // 15-minute dt
+    const dt = 3600 / timeStepsPerHour; // 900 seconds
+    const totalSteps = 24 * timeStepsPerHour;
+    const numCycles = 3; // 3 days spin-up
+
+    let T_in = ambientMean; // Initial guess
+
+    // Hourly arrays for reporting (last cycle)
+    const results24 = [];
+    let prevHour = -1;
+
+    for (let cycle = 0; cycle < numCycles; cycle++) {
+      for (let step = 0; step < totalSteps; step++) {
+        const hour = Math.floor(step / timeStepsPerHour);
+        const fractionOfHour = (step % timeStepsPerHour) / timeStepsPerHour;
+        
+        // Linear interpolation for current step outdoor temp and solar
+        const nextHour = (hour + 1) % 24;
+        const T_out_curr = outdoorTemps[hour] + fractionOfHour * (outdoorTemps[nextHour] - outdoorTemps[hour]);
+        
+        const solHour = solarData[hour];
+        const solNext = solarData[nextHour];
+        
+        const I_roof_curr = solHour.roofIrradiance + fractionOfHour * (solNext.roofIrradiance - solHour.roofIrradiance);
+        const I_front_curr = solHour.frontWallIrradiance + fractionOfHour * (solNext.frontWallIrradiance - solHour.frontWallIrradiance);
+        const I_back_curr = solHour.backWallIrradiance + fractionOfHour * (solNext.backWallIrradiance - solHour.backWallIrradiance);
+        const I_right_curr = solHour.rightWallIrradiance + fractionOfHour * (solNext.rightWallIrradiance - solHour.rightWallIrradiance);
+        const I_left_curr = solHour.leftWallIrradiance + fractionOfHour * (solNext.leftWallIrradiance - solHour.leftWallIrradiance);
+
+        // Sol-Air Temperatures
+        // Long-wave radiation loss to night sky: ~4°C for horizontal surfaces, 0°C for vertical walls
+        const skyRadiationDepressionRoof = (solHour.roofIrradiance > 50) ? 1.0 : 4.0;
+        const T_sol_roof = T_out_curr + (alpha_roof * I_roof_curr) / h_o - skyRadiationDepressionRoof;
+        const T_sol_front = T_out_curr + (alpha_wall * I_front_curr) / h_o;
+        const T_sol_back = T_out_curr + (alpha_wall * I_back_curr) / h_o;
+        const T_sol_right = T_out_curr + (alpha_wall * I_right_curr) / h_o;
+        const T_sol_left = T_out_curr + (alpha_wall * I_left_curr) / h_o;
+
+        // Instantaneous Heat Flows (Watts)
+        const Q_roof = U_roof * roofArea * (T_sol_roof - T_in);
+        const Q_walls = (U_wall * areaFront * (T_sol_front - T_in)) +
+                        (U_wall * areaBack * (T_sol_back - T_in)) +
+                        (U_wall * areaRight * (T_sol_right - T_in)) +
+                        (U_wall * areaLeft * (T_sol_left - T_in));
+        
+        const Q_floor = U_floor * floorArea * (groundTemp - T_in);
+        
+        // Window transmitted solar gain + conduction
+        // Window assumed on front wall
+        const Q_sol_win = windowArea * SHGC * I_front_curr;
+        const Q_cond_win = U_win * windowArea * (T_out_curr - T_in);
+        const Q_win_total = Q_sol_win + Q_cond_win;
+
+        // Ventilation & Infiltration
+        const Q_vent = mdot_cp_vent * (T_out_curr - T_in);
+
+        // Internal Casual Heat Gain (1-2 occupants, low power LED, approx 150 W)
+        const Q_internal = 150;
+
+        // Net Heat Gain (W)
+        const Q_net = Q_roof + Q_walls + Q_floor + Q_win_total + Q_vent + Q_internal;
+
+        // Dynamic Temperature Step
+        const dT_in = (Q_net / C_eff) * dt;
+        T_in += dT_in;
+
+        // On the final 24-hr cycle, record hourly results
+        if (cycle === numCycles - 1 && hour !== prevHour && fractionOfHour === 0) {
+          prevHour = hour;
+          results24.push({
+            hour,
+            timeLabel: `${String(hour).padStart(2, '0')}:00`,
+            outdoorTemp: Number(T_out_curr.toFixed(2)),
+            indoorTemp: Number(T_in.toFixed(2)),
+            solAirRoofTemp: Number(T_sol_roof.toFixed(2)),
+            heatGainRoof: Number(Q_roof.toFixed(1)),
+            heatGainWalls: Number(Q_walls.toFixed(1)),
+            heatGainFloor: Number(Q_floor.toFixed(1)),
+            heatGainWindows: Number(Q_win_total.toFixed(1)),
+            solarGainWindows: Number(Q_sol_win.toFixed(1)),
+            heatGainVentilation: Number(Q_vent.toFixed(1)),
+            heatGainInternal: Q_internal,
+            netHeatGain: Number(Q_net.toFixed(1))
+          });
+        }
+      }
+    }
+
+    // 6. Aggregate KPIs and Thermal Comfort Analysis
+    const indoorTemps = results24.map(r => r.indoorTemp);
+    const maxIndoorTemp = Math.max(...indoorTemps);
+    const minIndoorTemp = Math.min(...indoorTemps);
+    const meanIndoorTemp = Number((indoorTemps.reduce((a, b) => a + b, 0) / 24).toFixed(2));
+    const tempSwing = Number((maxIndoorTemp - minIndoorTemp).toFixed(2));
+
+    // Decrement Factor (damping ratio f = Tin_swing / Tout_swing)
+    const decrementFactor = diurnalRange > 0 ? Number((tempSwing / diurnalRange).toFixed(2)) : 1.0;
+
+    // Time Lag calculation: hour of peak outdoor vs hour of peak indoor
+    const maxOutdoorIndex = outdoorTemps.indexOf(Math.max(...outdoorTemps));
+    const maxIndoorIndex = indoorTemps.indexOf(maxIndoorTemp);
+    let timeLag = maxIndoorIndex - maxOutdoorIndex;
+    if (timeLag < 0) timeLag += 24;
+
+    // Energy integration (Wh -> kWh per day)
+    let totalSolarGainKWh = 0;
+    let totalHeatGainKWh = 0;
+    let totalHeatLossKWh = 0;
+
+    let roofGainKWh = 0, wallsGainKWh = 0, winGainKWh = 0, ventGainKWh = 0, floorGainKWh = 0;
+    let roofLossKWh = 0, wallsLossKWh = 0, winLossKWh = 0, ventLossKWh = 0, floorLossKWh = 0;
+
+    results24.forEach(r => {
+      // Solar direct through window
+      totalSolarGainKWh += (r.solarGainWindows * 1.0) / 1000;
+
+      // Net component tracking
+      if (r.heatGainRoof > 0) roofGainKWh += (r.heatGainRoof / 1000); else roofLossKWh += Math.abs(r.heatGainRoof / 1000);
+      if (r.heatGainWalls > 0) wallsGainKWh += (r.heatGainWalls / 1000); else wallsLossKWh += Math.abs(r.heatGainWalls / 1000);
+      if (r.heatGainWindows > 0) winGainKWh += (r.heatGainWindows / 1000); else winLossKWh += Math.abs(r.heatGainWindows / 1000);
+      if (r.heatGainVentilation > 0) ventGainKWh += (r.heatGainVentilation / 1000); else ventLossKWh += Math.abs(r.heatGainVentilation / 1000);
+      if (r.heatGainFloor > 0) floorGainKWh += (r.heatGainFloor / 1000); else floorLossKWh += Math.abs(r.heatGainFloor / 1000);
+
+      if (r.netHeatGain > 0) {
+        totalHeatGainKWh += (r.netHeatGain / 1000);
+      } else {
+        totalHeatLossKWh += (Math.abs(r.netHeatGain) / 1000);
+      }
+    });
+
+    // 7. Adaptive Thermal Comfort Evaluation
+    // Based on ASHRAE Standard 55 Adaptive Model & Indian Model for Adaptive Comfort (IMAC)
+    // T_comf = 17.8 + 0.31 * T_outdoor_mean
+    const neutralComfortTemp = Number((17.8 + 0.31 * ambientMean).toFixed(1));
+    const comfortLowerLimit = Number((neutralComfortTemp - 3.5).toFixed(1));
+    const comfortUpperLimit = Number((neutralComfortTemp + 3.5).toFixed(1));
+
+    let comfortHours = 0;
+    let warmHours = 0;
+    let coldHours = 0;
+
+    indoorTemps.forEach(t => {
+      if (t >= comfortLowerLimit && t <= comfortUpperLimit) {
+        comfortHours++;
+      } else if (t > comfortUpperLimit) {
+        warmHours++;
+      } else {
+        coldHours++;
+      }
+    });
+
+    // Comfort Status Badge Description
+    let comfortStatus = "Comfortable";
+    let comfortStatusClass = "badge-success";
+    if (comfortHours >= 18) {
+      comfortStatus = "High Thermal Comfort";
+      comfortStatusClass = "badge-success";
+    } else if (comfortHours >= 12) {
+      comfortStatus = "Moderate Thermal Comfort";
+      comfortStatusClass = "badge-warning";
+    } else if (warmHours > coldHours) {
+      comfortStatus = "Overheating Concern";
+      comfortStatusClass = "badge-danger";
+    } else {
+      comfortStatus = "Cold Discomfort";
+      comfortStatusClass = "badge-info";
+    }
+
+    return {
+      metadata: {
+        timestamp: new Date().toISOString(),
+        calculationType: "Estimated / Model-based Results (Lumped First-Principles Heat Balance)"
+      },
+      kpis: {
+        meanIndoorTemp,
+        maxIndoorTemp: Number(maxIndoorTemp.toFixed(2)),
+        minIndoorTemp: Number(minIndoorTemp.toFixed(2)),
+        tempSwing,
+        decrementFactor,
+        timeLag,
+        solarHeatGainKWh: Number(totalSolarGainKWh.toFixed(2)),
+        totalHeatGainKWh: Number(totalHeatGainKWh.toFixed(2)),
+        totalHeatLossKWh: Number(totalHeatLossKWh.toFixed(2)),
+        comfortHours,
+        warmHours,
+        coldHours,
+        comfortStatus,
+        comfortStatusClass,
+        neutralComfortTemp,
+        comfortLowerLimit,
+        comfortUpperLimit
+      },
+      envelopes: {
+        U_wall,
+        U_roof,
+        U_floor,
+        U_win,
+        totalWallArea: Number(totalWallArea.toFixed(1)),
+        roofArea: Number(roofArea.toFixed(1)),
+        floorArea: Number(floorArea.toFixed(1)),
+        volume: Number(volume.toFixed(1)),
+        totalACH: Number(totalACH.toFixed(2)),
+        thermalCapacitanceMJ: Number((C_eff / 1e6).toFixed(2))
+      },
+      energyBreakdown: {
+        gains: {
+          roof: Number(roofGainKWh.toFixed(2)),
+          walls: Number(wallsGainKWh.toFixed(2)),
+          windows: Number(winGainKWh.toFixed(2)),
+          ventilation: Number(ventGainKWh.toFixed(2)),
+          floor: Number(floorGainKWh.toFixed(2))
+        },
+        losses: {
+          roof: Number(roofLossKWh.toFixed(2)),
+          walls: Number(wallsLossKWh.toFixed(2)),
+          windows: Number(winLossKWh.toFixed(2)),
+          ventilation: Number(ventLossKWh.toFixed(2)),
+          floor: Number(floorLossKWh.toFixed(2))
+        }
+      },
+      timeSeries: results24
+    };
+  }
+}
+
+/**
+ * PASSIVE SHELTER DESIGNER - 3D Visualization Module (Three.js)
+ * Live interactive 3D model updating with geometry, materials, orientation, and solar vector.
+ */
+
+class ShelterViewer3D {
+  constructor(containerId) {
+    this.container = document.getElementById(containerId);
+    this.scene = null;
+    this.camera = null;
+    this.renderer = null;
+    this.controls = null;
+    this.shelterGroup = null;
+    this.sunLight = null;
+    this.sunSphere = null;
+    this.compassGroup = null;
+    this.isHeatmapMode = false;
+
+    // Current state cache
+    this.currentGeometry = {
+      length: 5.0,
+      width: 4.0,
+      height: 3.0,
+      roofType: 'flat',
+      orientation: 0,
+      windowArea: 2.0,
+      doorArea: 1.8
+    };
+    this.currentMaterials = {
+      wallMaterial: 'brick_common',
+      roofMaterial: 'rcc_slab'
+    };
+
+    this.init();
+  }
+
+  init() {
+    if (!this.container) return;
+    if (typeof THREE === 'undefined') {
+      console.warn("Three.js not loaded. 3D view will be unavailable.");
+      this.container.innerHTML = `
+        <div style="display:flex;align-items:center;justify-content:center;height:100%;color:#a0aec0;font-size:14px;text-align:center;padding:20px;">
+          <div>
+            <div style="font-size:24px;margin-bottom:8px;">📐</div>
+            <p><strong>3D WebGL Engine Initializing...</strong></p>
+            <p style="font-size:12px;opacity:0.8;">Ensure active internet access for 3D library (Three.js) CDN.</p>
+          </div>
+        </div>`;
+      return;
+    }
+
+    const width = this.container.clientWidth || 500;
+    const height = this.container.clientHeight || 360;
+
+    // 1. Scene
+    this.scene = new THREE.Scene();
+    this.scene.background = new THREE.Color(0x131924); // Dark technical CAD slate background
+
+    // 2. Camera
+    this.camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
+    this.camera.position.set(12, 10, 14);
+
+    // 3. Renderer
+    this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    this.renderer.setSize(width, height);
+    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    this.renderer.shadowMap.enabled = true;
+    this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+    this.container.innerHTML = '';
+    this.container.appendChild(this.renderer.domElement);
+
+    // 4. Controls
+    if (typeof THREE.OrbitControls !== 'undefined') {
+      this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
+      this.controls.enableDamping = true;
+      this.controls.dampingFactor = 0.08;
+      this.controls.maxPolarAngle = Math.PI / 2 - 0.05; // Do not go below ground plane
+      this.controls.minDistance = 4;
+      this.controls.maxDistance = 40;
+      this.controls.target.set(0, 1.5, 0);
+    }
+
+    // 5. Lights
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.45);
+    this.scene.add(ambientLight);
+
+    const hemiLight = new THREE.HemisphereLight(0x94b3df, 0x3d372d, 0.4);
+    hemiLight.position.set(0, 20, 0);
+    this.scene.add(hemiLight);
+
+    this.sunLight = new THREE.DirectionalLight(0xfffaed, 1.1);
+    this.sunLight.position.set(12, 18, 10);
+    this.sunLight.castShadow = true;
+    this.sunLight.shadow.mapSize.width = 1024;
+    this.sunLight.shadow.mapSize.height = 1024;
+    this.sunLight.shadow.camera.near = 0.5;
+    this.sunLight.shadow.camera.far = 50;
+    const d = 12;
+    this.sunLight.shadow.camera.left = -d;
+    this.sunLight.shadow.camera.right = d;
+    this.sunLight.shadow.camera.top = d;
+    this.sunLight.shadow.camera.bottom = -d;
+    this.scene.add(this.sunLight);
+
+    // Visual Sun Sphere marker
+    const sunGeom = new THREE.SphereGeometry(0.6, 16, 16);
+    const sunMat = new THREE.MeshBasicMaterial({ color: 0xffd24d });
+    this.sunSphere = new THREE.Mesh(sunGeom, sunMat);
+    this.sunSphere.position.copy(this.sunLight.position);
+    this.scene.add(this.sunSphere);
+
+    // 6. Ground & Compass
+    this.createGroundAndCompass();
+
+    // 7. Shelter Group
+    this.shelterGroup = new THREE.Group();
+    this.scene.add(this.shelterGroup);
+
+    // Initial build
+    this.rebuildShelter();
+
+    // Resize handler
+    window.addEventListener('resize', () => this.onWindowResize());
+
+    // Animation Loop
+    this.animate();
+  }
+
+  createGroundAndCompass() {
+    // Ground plane
+    const groundGeo = new THREE.PlaneGeometry(24, 24);
+    const groundMat = new THREE.MeshLambertMaterial({ color: 0x1d2432 });
+    const ground = new THREE.Mesh(groundGeo, groundMat);
+    ground.rotation.x = -Math.PI / 2;
+    ground.receiveShadow = true;
+    ground.position.y = -0.01;
+    this.scene.add(ground);
+
+    // Grid helper
+    const grid = new THREE.GridHelper(24, 24, 0x3d4b64, 0x242d3d);
+    grid.position.y = 0;
+    this.scene.add(grid);
+
+    // Compass Rose
+    this.compassGroup = new THREE.Group();
+    this.compassGroup.position.set(0, 0.02, 0);
+
+    // North arrow (Red)
+    const arrowDir = new THREE.Vector3(0, 0, -1);
+    const arrowLen = 5.5;
+    const arrowColor = 0xe53e3e;
+    const northArrow = new THREE.ArrowHelper(arrowDir, new THREE.Vector3(0, 0.05, 0), arrowLen, arrowColor, 0.8, 0.5);
+    this.compassGroup.add(northArrow);
+
+    // South arrow (Subtle cyan/white)
+    const southArrow = new THREE.ArrowHelper(new THREE.Vector3(0, 0, 1), new THREE.Vector3(0, 0.05, 0), arrowLen * 0.7, 0x4a5568, 0.5, 0.3);
+    this.compassGroup.add(southArrow);
+
+    // East arrow
+    const eastArrow = new THREE.ArrowHelper(new THREE.Vector3(1, 0, 0), new THREE.Vector3(0, 0.05, 0), arrowLen * 0.7, 0x4a5568, 0.5, 0.3);
+    this.compassGroup.add(eastArrow);
+
+    // West arrow
+    const westArrow = new THREE.ArrowHelper(new THREE.Vector3(-1, 0, 0), new THREE.Vector3(0, 0.05, 0), arrowLen * 0.7, 0x4a5568, 0.5, 0.3);
+    this.compassGroup.add(westArrow);
+
+    this.scene.add(this.compassGroup);
+  }
+
+  getMaterialColor(materialKey, category, defaultHex) {
+    if (this.isHeatmapMode) {
+      // Heatmap gradient colors: Blue (low heat) -> Orange (moderate) -> Red (high solar gain)
+      if (category === 'roofs') return 0xef4444; // Roofs get highest solar flux
+      if (category === 'walls') return 0xf59e0b; // Walls get moderate flux
+      return 0x3b82f6; // Floor/ground
+    }
+    const mat = MATERIALS_DATABASE[category]?.[materialKey];
+    if (mat && mat.color) {
+      return parseInt(mat.color.replace('#', '0x'), 16);
+    }
+    return defaultHex;
+  }
+
+  rebuildShelter(geometry = this.currentGeometry, materials = this.currentMaterials) {
+    if (!this.shelterGroup) return;
+
+    this.currentGeometry = { ...this.currentGeometry, ...geometry };
+    this.currentMaterials = { ...this.currentMaterials, ...materials };
+
+    const L = Number(this.currentGeometry.length) || 5.0;
+    const W = Number(this.currentGeometry.width) || 4.0;
+    const H = Number(this.currentGeometry.height) || 3.0;
+    const orientation = Number(this.currentGeometry.orientation) || 0;
+    const roofType = this.currentGeometry.roofType || 'flat';
+    const windowArea = Number(this.currentGeometry.windowArea) || 2.0;
+    const doorArea = Number(this.currentGeometry.doorArea) || 1.8;
+
+    // Clear existing meshes
+    while (this.shelterGroup.children.length > 0) {
+      const obj = this.shelterGroup.children[0];
+      if (obj.geometry) obj.geometry.dispose();
+      if (obj.material) {
+        if (Array.isArray(obj.material)) obj.material.forEach(m => m.dispose());
+        else obj.material.dispose();
+      }
+      this.shelterGroup.remove(obj);
+    }
+
+    const wallColor = this.getMaterialColor(this.currentMaterials.wallMaterial, 'walls', 0xb2533e);
+    const roofColor = this.getMaterialColor(this.currentMaterials.roofMaterial, 'roofs', 0x7e8287);
+    const floorColor = this.getMaterialColor(this.currentMaterials.floorMaterial, 'floors', 0x4a5568);
+
+    // Wall Material
+    const wallMaterial = new THREE.MeshStandardMaterial({
+      color: wallColor,
+      roughness: 0.8,
+      metalness: 0.1,
+      side: THREE.DoubleSide
+    });
+
+    // Floor
+    const floorGeo = new THREE.BoxGeometry(L, 0.15, W);
+    const floorMat = new THREE.MeshStandardMaterial({ color: floorColor, roughness: 0.9 });
+    const floorMesh = new THREE.Mesh(floorGeo, floorMat);
+    floorMesh.position.set(0, 0.075, 0);
+    floorMesh.receiveShadow = true;
+    this.shelterGroup.add(floorMesh);
+
+    // Wall geometry: Main envelope box with interior view
+    // Build 4 distinct walls for realism and openings
+    const wallThickness = 0.2;
+
+    // Back Wall (-Z)
+    const backWallGeo = new THREE.BoxGeometry(L, H, wallThickness);
+    const backWall = new THREE.Mesh(backWallGeo, wallMaterial);
+    backWall.position.set(0, H / 2, -W / 2 + wallThickness / 2);
+    backWall.castShadow = true;
+    backWall.receiveShadow = true;
+    this.shelterGroup.add(backWall);
+
+    // Left Wall (-X)
+    const leftWallGeo = new THREE.BoxGeometry(wallThickness, H, W - 2 * wallThickness);
+    const leftWall = new THREE.Mesh(leftWallGeo, wallMaterial);
+    leftWall.position.set(-L / 2 + wallThickness / 2, H / 2, 0);
+    leftWall.castShadow = true;
+    leftWall.receiveShadow = true;
+    this.shelterGroup.add(leftWall);
+
+    // Right Wall (+X)
+    const rightWallGeo = new THREE.BoxGeometry(wallThickness, H, W - 2 * wallThickness);
+    const rightWall = new THREE.Mesh(rightWallGeo, wallMaterial);
+    rightWall.position.set(L / 2 - wallThickness / 2, H / 2, 0);
+    rightWall.castShadow = true;
+    rightWall.receiveShadow = true;
+    this.shelterGroup.add(rightWall);
+
+    // Front Wall (+Z): Has Window & Door
+    // Door dimensions: W_door x H_door
+    const H_door = Math.min(2.1, H * 0.8);
+    const W_door = Math.min(doorArea / H_door, L * 0.35);
+
+    // Window dimensions: W_win x H_win
+    const H_win = Math.min(1.2, H * 0.5);
+    const W_win = Math.min(windowArea / H_win, L * 0.45);
+    const winSillHeight = 0.9;
+
+    // Create front wall segments (around door and window)
+    const frontWall = new THREE.Group();
+    frontWall.position.set(0, 0, W / 2 - wallThickness / 2);
+
+    // Main front wall body (composite representation)
+    const fwGeo = new THREE.BoxGeometry(L, H, wallThickness);
+    const fwMesh = new THREE.Mesh(fwGeo, wallMaterial);
+    fwMesh.position.set(0, H / 2, 0);
+    fwMesh.castShadow = true;
+    fwMesh.receiveShadow = true;
+    frontWall.add(fwMesh);
+
+    // Door Visual Cutout / Panel
+    const doorGeo = new THREE.BoxGeometry(W_door, H_door, wallThickness + 0.04);
+    const doorMat = new THREE.MeshStandardMaterial({ color: 0x4a3728, roughness: 0.6 });
+    const doorMesh = new THREE.Mesh(doorGeo, doorMat);
+    doorMesh.position.set(-L * 0.25, H_door / 2, 0);
+    frontWall.add(doorMesh);
+
+    // Window Visual Glass & Frame
+    const winGeo = new THREE.BoxGeometry(W_win, H_win, wallThickness + 0.04);
+    const winMat = new THREE.MeshPhysicalMaterial({
+      color: 0x64b5f6,
+      transparent: true,
+      opacity: 0.65,
+      roughness: 0.1,
+      transmission: 0.8,
+      reflectivity: 0.9
+    });
+    const winMesh = new THREE.Mesh(winGeo, winMat);
+    winMesh.position.set(L * 0.22, winSillHeight + H_win / 2, 0);
+    frontWall.add(winMesh);
+
+    // Window Frame
+    const frameGeo = new THREE.BoxGeometry(W_win + 0.1, H_win + 0.1, wallThickness + 0.02);
+    const frameMat = new THREE.MeshStandardMaterial({ color: 0x2d3748 });
+    const frameMesh = new THREE.Mesh(frameGeo, frameMat);
+    frameMesh.position.copy(winMesh.position);
+    frameMesh.position.z -= 0.01;
+    frontWall.add(frameMesh);
+
+    this.shelterGroup.add(frontWall);
+
+    // Roof Mesh
+    const roofMaterial = new THREE.MeshStandardMaterial({
+      color: roofColor,
+      roughness: 0.7,
+      metalness: 0.1,
+      side: THREE.DoubleSide
+    });
+
+    if (roofType === 'flat') {
+      // Flat slab with slight overhang & parapet
+      const overhang = 0.3;
+      const flatRoofGeo = new THREE.BoxGeometry(L + overhang * 2, 0.2, W + overhang * 2);
+      const flatRoof = new THREE.Mesh(flatRoofGeo, roofMaterial);
+      flatRoof.position.set(0, H + 0.1, 0);
+      flatRoof.castShadow = true;
+      flatRoof.receiveShadow = true;
+      this.shelterGroup.add(flatRoof);
+    } else if (roofType === 'gable') {
+      // Pitched Gable Roof
+      const pitchHeight = Math.min(1.8, W * 0.35);
+      const overhang = 0.35;
+      
+      const roofGeom = new THREE.BufferGeometry();
+      // Triangle gable vertices
+      const halfL = (L + overhang * 2) / 2;
+      const halfW = (W + overhang * 2) / 2;
+      const apexY = H + pitchHeight;
+      const baseY = H;
+
+      // Two inclined plane slopes
+      // Left slope (-Z to +Z over X, or slope over Z)
+      const slopeGeo = new THREE.BoxGeometry(L + overhang * 2, 0.12, Math.sqrt(halfW * halfW + pitchHeight * pitchHeight) + 0.2);
+      
+      // Slope 1 (+Z side)
+      const slopeAngle = Math.atan2(pitchHeight, halfW);
+      const slope1 = new THREE.Mesh(slopeGeo, roofMaterial);
+      slope1.position.set(0, H + pitchHeight / 2, halfW / 2);
+      slope1.rotation.x = -slopeAngle;
+      slope1.castShadow = true;
+      this.shelterGroup.add(slope1);
+
+      // Slope 2 (-Z side)
+      const slope2 = new THREE.Mesh(slopeGeo, roofMaterial);
+      slope2.position.set(0, H + pitchHeight / 2, -halfW / 2);
+      slope2.rotation.x = slopeAngle;
+      slope2.castShadow = true;
+      this.shelterGroup.add(slope2);
+
+      // Gable end walls (triangles)
+      const gableShape = new THREE.Shape();
+      gableShape.moveTo(-halfW, baseY);
+      gableShape.lineTo(0, apexY);
+      gableShape.lineTo(halfW, baseY);
+      gableShape.closePath();
+
+      const gableGeo = new THREE.ShapeGeometry(gableShape);
+      
+      const gableLeft = new THREE.Mesh(gableGeo, wallMaterial);
+      gableLeft.rotation.y = Math.PI / 2;
+      gableLeft.position.set(-L / 2 + wallThickness / 2, 0, 0);
+      gableLeft.castShadow = true;
+      this.shelterGroup.add(gableLeft);
+
+      const gableRight = new THREE.Mesh(gableGeo, wallMaterial);
+      gableRight.rotation.y = -Math.PI / 2;
+      gableRight.position.set(L / 2 - wallThickness / 2, 0, 0);
+      gableRight.castShadow = true;
+      this.shelterGroup.add(gableRight);
+
+    } else if (roofType === 'shed') {
+      // Monopitch / Shed roof (sloping down from back to front)
+      const slopeHeight = Math.min(1.2, W * 0.25);
+      const overhang = 0.35;
+      const roofLen = Math.sqrt((W + overhang * 2) * (W + overhang * 2) + slopeHeight * slopeHeight);
+      const shedRoofGeo = new THREE.BoxGeometry(L + overhang * 2, 0.15, roofLen);
+      const shedRoof = new THREE.Mesh(shedRoofGeo, roofMaterial);
+      
+      const shedAngle = Math.atan2(slopeHeight, W + overhang * 2);
+      shedRoof.position.set(0, H + slopeHeight / 2 + 0.1, 0);
+      shedRoof.rotation.x = shedAngle;
+      shedRoof.castShadow = true;
+      this.shelterGroup.add(shedRoof);
+    }
+
+    // Apply orientation rotation (around Y axis in radians)
+    // 0 deg = North (-Z), 90 deg = East (+X), 180 deg = South (+Z), 270 deg = West (-X)
+    const rad = (orientation * Math.PI) / 180;
+    this.shelterGroup.rotation.y = -rad;
+
+    // Adjust camera target
+    if (this.controls) {
+      this.controls.target.set(0, H / 2, 0);
+    }
+  }
+
+  setSolarTime(hour, solarAzimuthDeg = 180, betaDeg = 45) {
+    if (!this.sunLight || !this.sunSphere) return;
+
+    if (betaDeg <= 0) {
+      // Night condition
+      this.sunLight.intensity = 0.05;
+      this.sunSphere.visible = false;
+      return;
+    }
+
+    this.sunSphere.visible = true;
+    this.sunLight.intensity = 1.1;
+
+    // Calculate 3D position on celestial hemisphere (radius ~ 18)
+    const R = 18;
+    const betaRad = (betaDeg * Math.PI) / 180;
+    const azRad = (solarAzimuthDeg * Math.PI) / 180;
+
+    // In Three.js: -Z is North, +Z is South, +X is East, -X is West
+    // Azimuth measured clockwise from North:
+    // Az 0 = (0, 0, -R), Az 90 = (R, 0, 0), Az 180 = (0, 0, R), Az 270 = (-R, 0, 0)
+    const x = R * Math.cos(betaRad) * Math.sin(azRad);
+    const y = Math.max(1, R * Math.sin(betaRad));
+    const z = -R * Math.cos(betaRad) * Math.cos(azRad);
+
+    this.sunLight.position.set(x, y, z);
+    this.sunSphere.position.set(x, y, z);
+  }
+
+  toggleHeatmapMode() {
+    this.isHeatmapMode = !this.isHeatmapMode;
+    this.rebuildShelter();
+    return this.isHeatmapMode;
+  }
+
+  setCameraView(viewName) {
+    if (!this.camera || !this.controls) return;
+    const H = this.currentGeometry.height || 3.0;
+
+    if (viewName === 'isometric') {
+      this.camera.position.set(12, 10, 14);
+    } else if (viewName === 'front') {
+      this.camera.position.set(0, H / 2, 16);
+    } else if (viewName === 'top') {
+      this.camera.position.set(0, 18, 0.1);
+    } else if (viewName === 'sun') {
+      if (this.sunLight) {
+        this.camera.position.copy(this.sunLight.position).multiplyScalar(0.85);
+      }
+    }
+    this.controls.target.set(0, H / 2, 0);
+    this.controls.update();
+  }
+
+  onWindowResize() {
+    if (!this.container || !this.camera || !this.renderer) return;
+    const width = this.container.clientWidth;
+    const height = this.container.clientHeight;
+    if (width === 0 || height === 0) return;
+    this.camera.aspect = width / height;
+    this.camera.updateProjectionMatrix();
+    this.renderer.setSize(width, height);
+  }
+
+  animate() {
+    requestAnimationFrame(() => this.animate());
+    if (this.controls) this.controls.update();
+    if (this.renderer && this.scene && this.camera) {
+      this.renderer.render(this.scene, this.camera);
+    }
+  }
+}
+
+/**
+ * PASSIVE SHELTER DESIGNER - Charts & Visualizations
+ * Chart.js configurations for 24-Hour Diurnal Curves, Component Heat Breakdown, and Design Comparisons.
+ */
+
+class ShelterChartsManager {
+  constructor() {
+    this.tempChart = null;
+    this.breakdownChart = null;
+    this.comparisonChart = null;
+  }
+
+  /**
+   * Render or update 24-Hour Temperature Profile Chart
+   */
+  render24HourTempChart(canvasId, timeSeries, comfortLimits) {
+    const canvas = document.getElementById(canvasId);
+    if (!canvas || typeof Chart === 'undefined') return;
+
+    const labels = timeSeries.map(d => d.timeLabel);
+    const outdoorTemps = timeSeries.map(d => d.outdoorTemp);
+    const indoorTemps = timeSeries.map(d => d.indoorTemp);
+    const solAirTemps = timeSeries.map(d => d.solAirRoofTemp);
+
+    const lowerComfort = Array(24).fill(comfortLimits.lower);
+    const upperComfort = Array(24).fill(comfortLimits.upper);
+
+    if (this.tempChart) {
+      this.tempChart.destroy();
+    }
+
+    const ctx = canvas.getContext('2d');
+    this.tempChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels,
+        datasets: [
+          {
+            label: 'Outdoor Ambient Temp (°C)',
+            data: outdoorTemps,
+            borderColor: '#94a3b8',
+            borderWidth: 2,
+            borderDash: [5, 4],
+            pointRadius: 2,
+            pointHoverRadius: 5,
+            tension: 0.35,
+            order: 2
+          },
+          {
+            label: 'Indoor Temp (°C) [Estimated]',
+            data: indoorTemps,
+            borderColor: '#38bdf8',
+            backgroundColor: 'rgba(56, 189, 248, 0.08)',
+            fill: false,
+            borderWidth: 3.5,
+            pointRadius: 3,
+            pointBackgroundColor: '#38bdf8',
+            pointHoverRadius: 6,
+            tension: 0.35,
+            order: 1
+          },
+          {
+            label: 'Sol-Air Roof Temp (°C)',
+            data: solAirTemps,
+            borderColor: '#f97316',
+            borderWidth: 1.5,
+            borderDash: [2, 2],
+            pointRadius: 0,
+            tension: 0.35,
+            order: 3
+          },
+          {
+            label: 'Upper Comfort Limit (80% Acceptability)',
+            data: upperComfort,
+            borderColor: 'rgba(74, 222, 128, 0.6)',
+            borderWidth: 1.5,
+            borderDash: [3, 3],
+            pointRadius: 0,
+            fill: '+1',
+            backgroundColor: 'rgba(74, 222, 128, 0.07)',
+            order: 4
+          },
+          {
+            label: 'Lower Comfort Limit',
+            data: lowerComfort,
+            borderColor: 'rgba(74, 222, 128, 0.6)',
+            borderWidth: 1.5,
+            borderDash: [3, 3],
+            pointRadius: 0,
+            fill: false,
+            order: 5
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        interaction: {
+          mode: 'index',
+          intersect: false
+        },
+        plugins: {
+          legend: {
+            position: 'top',
+            labels: {
+              color: '#cbd5e1',
+              font: { family: "'Inter', sans-serif", size: 11 },
+              boxWidth: 14,
+              padding: 12
+            }
+          },
+          tooltip: {
+            backgroundColor: '#0f172a',
+            borderColor: '#334155',
+            borderWidth: 1,
+            titleColor: '#f8fafc',
+            bodyColor: '#e2e8f0',
+            padding: 10,
+            callbacks: {
+              label: (context) => `${context.dataset.label}: ${context.parsed.y.toFixed(1)} °C`
+            }
+          }
+        },
+        scales: {
+          x: {
+            grid: { color: 'rgba(51, 65, 85, 0.4)' },
+            ticks: { color: '#94a3b8', font: { size: 10 } }
+          },
+          y: {
+            title: {
+              display: true,
+              text: 'Temperature (°C)',
+              color: '#94a3b8',
+              font: { size: 11, weight: 'bold' }
+            },
+            grid: { color: 'rgba(51, 65, 85, 0.4)' },
+            ticks: { color: '#94a3b8', font: { size: 10 } }
+          }
+        }
+      }
+    });
+  }
+
+  /**
+   * Render Component Heat Gain & Loss Breakdown Chart
+   */
+  renderHeatBreakdownChart(canvasId, energyBreakdown) {
+    const canvas = document.getElementById(canvasId);
+    if (!canvas || typeof Chart === 'undefined') return;
+
+    if (this.breakdownChart) {
+      this.breakdownChart.destroy();
+    }
+
+    const categories = ['Roof', 'Walls', 'Windows & Glazing', 'Ventilation / Infiltration', 'Ground Floor'];
+    const gains = [
+      energyBreakdown.gains.roof,
+      energyBreakdown.gains.walls,
+      energyBreakdown.gains.windows,
+      energyBreakdown.gains.ventilation,
+      energyBreakdown.gains.floor
+    ];
+    const losses = [
+      -energyBreakdown.losses.roof,
+      -energyBreakdown.losses.walls,
+      -energyBreakdown.losses.windows,
+      -energyBreakdown.losses.ventilation,
+      -energyBreakdown.losses.floor
+    ];
+
+    const ctx = canvas.getContext('2d');
+    this.breakdownChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: categories,
+        datasets: [
+          {
+            label: 'Heat Influx / Gain (kWh/day)',
+            data: gains,
+            backgroundColor: 'rgba(239, 68, 68, 0.75)',
+            borderColor: '#ef4444',
+            borderWidth: 1,
+            borderRadius: 4
+          },
+          {
+            label: 'Heat Dissipation / Loss (kWh/day)',
+            data: losses,
+            backgroundColor: 'rgba(59, 130, 246, 0.75)',
+            borderColor: '#3b82f6',
+            borderWidth: 1,
+            borderRadius: 4
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        indexAxis: 'y', // Horizontal bars for clean component comparison
+        plugins: {
+          legend: {
+            position: 'top',
+            labels: {
+              color: '#cbd5e1',
+              font: { family: "'Inter', sans-serif", size: 11 }
+            }
+          },
+          tooltip: {
+            backgroundColor: '#0f172a',
+            borderColor: '#334155',
+            borderWidth: 1,
+            callbacks: {
+              label: (context) => {
+                const val = Math.abs(context.parsed.x).toFixed(2);
+                return `${context.dataset.label}: ${val} kWh/day`;
+              }
+            }
+          }
+        },
+        scales: {
+          x: {
+            title: {
+              display: true,
+              text: 'Heat Exchange (kWh / day)',
+              color: '#94a3b8',
+              font: { size: 11, weight: 'bold' }
+            },
+            grid: { color: 'rgba(51, 65, 85, 0.4)' },
+            ticks: {
+              color: '#94a3b8',
+              callback: (value) => Math.abs(value).toFixed(1)
+            }
+          },
+          y: {
+            grid: { display: false },
+            ticks: { color: '#e2e8f0', font: { size: 11 } }
+          }
+        }
+      }
+    });
+  }
+
+  /**
+   * Render Multi-Design Comparison Chart
+   */
+  renderComparisonChart(canvasId, outdoorTemps, savedConfigs, comfortLimits) {
+    const canvas = document.getElementById(canvasId);
+    if (!canvas || typeof Chart === 'undefined') return;
+
+    if (this.comparisonChart) {
+      this.comparisonChart.destroy();
+    }
+
+    const labels = Array.from({ length: 24 }, (_, i) => `${String(i).padStart(2, '0')}:00`);
+
+    const palette = ['#38bdf8', '#10b981', '#f59e0b', '#ec4899'];
+
+    const datasets = [
+      {
+        label: 'Outdoor Ambient',
+        data: outdoorTemps,
+        borderColor: '#64748b',
+        borderWidth: 2,
+        borderDash: [4, 4],
+        pointRadius: 0,
+        tension: 0.35
+      }
+    ];
+
+    savedConfigs.forEach((config, idx) => {
+      datasets.push({
+        label: `${config.name} (Tmean: ${config.kpis.meanIndoorTemp}°C)`,
+        data: config.timeSeries.map(d => d.indoorTemp),
+        borderColor: palette[idx % palette.length],
+        borderWidth: 3,
+        pointRadius: 2,
+        tension: 0.35
+      });
+    });
+
+    // Comfort limits
+    if (comfortLimits) {
+      datasets.push({
+        label: 'Comfort Band',
+        data: Array(24).fill(comfortLimits.upper),
+        borderColor: 'rgba(34, 197, 94, 0.4)',
+        borderWidth: 1,
+        borderDash: [2, 2],
+        pointRadius: 0,
+        fill: '+1',
+        backgroundColor: 'rgba(34, 197, 94, 0.05)'
+      });
+      datasets.push({
+        label: 'Lower Limit',
+        data: Array(24).fill(comfortLimits.lower),
+        borderColor: 'rgba(34, 197, 94, 0.4)',
+        borderWidth: 1,
+        borderDash: [2, 2],
+        pointRadius: 0,
+        fill: false
+      });
+    }
+
+    const ctx = canvas.getContext('2d');
+    this.comparisonChart = new Chart(ctx, {
+      type: 'line',
+      data: { labels, datasets },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'top',
+            labels: { color: '#cbd5e1', font: { size: 11 } }
+          },
+          tooltip: {
+            backgroundColor: '#0f172a',
+            borderColor: '#334155',
+            borderWidth: 1,
+            callbacks: {
+              label: (context) => `${context.dataset.label}: ${context.parsed.y.toFixed(1)} °C`
+            }
+          }
+        },
+        scales: {
+          x: {
+            grid: { color: 'rgba(51, 65, 85, 0.4)' },
+            ticks: { color: '#94a3b8' }
+          },
+          y: {
+            title: { display: true, text: 'Indoor Temperature (°C)', color: '#94a3b8' },
+            grid: { color: 'rgba(51, 65, 85, 0.4)' },
+            ticks: { color: '#94a3b8' }
+          }
+        }
+      }
+    });
+  }
+}
+
+/**
+ * PASSIVE SHELTER DESIGNER - Design Comparison Module
+ * Stores, manages, and evaluates multiple shelter configurations side-by-side.
+ */
+
+class DesignComparisonManager {
+  constructor() {
+    this.configurations = [];
+    this.maxConfigs = 4;
+    this.initDefaultPresets();
+  }
+
+  initDefaultPresets() {
+    // We will initialize with 2 realistic baseline engineering variants after initial simulation
+  }
+
+  saveConfiguration(name, climate, geometry, materials, simulationResults) {
+    if (this.configurations.length >= this.maxConfigs) {
+      this.configurations.shift(); // Remove oldest if at max
+    }
+
+    const configId = 'cfg_' + Date.now();
+    const config = {
+      id: configId,
+      name: name || `Design Variant ${this.configurations.length + 1}`,
+      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      climate: JSON.parse(JSON.stringify(climate)),
+      geometry: JSON.parse(JSON.stringify(geometry)),
+      materials: JSON.parse(JSON.stringify(materials)),
+      kpis: simulationResults.kpis,
+      envelopes: simulationResults.envelopes,
+      energyBreakdown: simulationResults.energyBreakdown,
+      timeSeries: simulationResults.timeSeries
+    };
+
+    this.configurations.push(config);
+    return config;
+  }
+
+  removeConfiguration(configId) {
+    this.configurations = this.configurations.filter(c => c.id !== configId);
+  }
+
+  clearAll() {
+    this.configurations = [];
+  }
+
+  getConfigurations() {
+    return this.configurations;
+  }
+
+  /**
+   * Generates comparison table HTML
+   */
+  generateComparisonTableHTML() {
+    if (this.configurations.length === 0) {
+      return `
+        <div class="empty-state">
+          <div class="empty-icon">📊</div>
+          <h4>No Design Variants Saved Yet</h4>
+          <p>Run a simulation and click <strong>"Save to Comparison"</strong> to compare different shelter designs, envelope materials, or orientations side-by-side.</p>
+        </div>
+      `;
+    }
+
+    // Find best performing metrics for highlight
+    const minMaxTemp = Math.min(...this.configurations.map(c => c.kpis.maxIndoorTemp));
+    const minSwing = Math.min(...this.configurations.map(c => c.kpis.tempSwing));
+    const maxComfort = Math.max(...this.configurations.map(c => c.kpis.comfortHours));
+    const minSolarGain = Math.min(...this.configurations.map(c => c.kpis.solarHeatGainKWh));
+
+    let html = `
+      <div class="table-responsive">
+        <table class="engineering-table comparison-matrix">
+          <thead>
+            <tr>
+              <th style="min-width: 180px;">Design Parameter / KPI</th>
+    `;
+
+    this.configurations.forEach(cfg => {
+      html += `
+        <th class="cfg-header">
+          <div class="cfg-title">${cfg.name}</div>
+          <div class="cfg-subtitle">Saved: ${cfg.timestamp}</div>
+          <button class="btn-icon btn-remove-cfg" onclick="window.app.removeConfig('${cfg.id}')" title="Delete Variant">✕</button>
+        </th>
+      `;
+    });
+
+    html += `
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="section-divider"><td colspan="${this.configurations.length + 1}">Envelope & Geometry Specifications</td></tr>
+            <tr>
+              <td class="param-name">Wall Construction & U-Value</td>
+              ${this.configurations.map(c => `<td><strong>${MATERIALS_DATABASE.walls[c.materials.wallMaterial]?.name || c.materials.wallMaterial}</strong><br><span class="unit-pill">U: ${c.envelopes.U_wall} W/m²K</span></td>`).join('')}
+            </tr>
+            <tr>
+              <td class="param-name">Roof Construction & U-Value</td>
+              ${this.configurations.map(c => `<td><strong>${MATERIALS_DATABASE.roofs[c.materials.roofMaterial]?.name || c.materials.roofMaterial}</strong><br><span class="unit-pill">U: ${c.envelopes.U_roof} W/m²K</span></td>`).join('')}
+            </tr>
+            <tr>
+              <td class="param-name">Orientation & Roof Type</td>
+              ${this.configurations.map(c => `<td>Orientation: ${c.geometry.orientation}°<br>Roof: ${c.geometry.roofType.toUpperCase()}</td>`).join('')}
+            </tr>
+            <tr>
+              <td class="param-name">Window-to-Wall Ratio (WWR)</td>
+              ${this.configurations.map(c => `<td>Area: ${c.geometry.windowArea} m²<br>WWR: ${((c.geometry.windowArea / (c.envelopes.totalWallArea + Number(c.geometry.windowArea))) * 100).toFixed(1)}%</td>`).join('')}
+            </tr>
+
+            <tr class="section-divider"><td colspan="${this.configurations.length + 1}">Thermal Performance (Estimated / Model-Based)</td></tr>
+            <tr>
+              <td class="param-name">Peak Indoor Temp (Tmax)</td>
+              ${this.configurations.map(c => {
+                const isBest = c.kpis.maxIndoorTemp === minMaxTemp;
+                return `<td class="${isBest ? 'best-val' : ''}">${c.kpis.maxIndoorTemp} °C ${isBest ? '<span class="best-badge">⭐ Lowest</span>' : ''}</td>`;
+              }).join('')}
+            </tr>
+            <tr>
+              <td class="param-name">Minimum Indoor Temp (Tmin)</td>
+              ${this.configurations.map(c => `<td>${c.kpis.minIndoorTemp} °C</td>`).join('')}
+            </tr>
+            <tr>
+              <td class="param-name">Mean Indoor Temp (Tmean)</td>
+              ${this.configurations.map(c => `<td><strong>${c.kpis.meanIndoorTemp} °C</strong></td>`).join('')}
+            </tr>
+            <tr>
+              <td class="param-name">Diurnal Temp Swing (ΔTin)</td>
+              ${this.configurations.map(c => {
+                const isBest = c.kpis.tempSwing === minSwing;
+                return `<td class="${isBest ? 'best-val' : ''}">±${c.kpis.tempSwing} °C (f = ${c.kpis.decrementFactor}) ${isBest ? '<span class="best-badge">⭐ Most Stable</span>' : ''}</td>`;
+              }).join('')}
+            </tr>
+            <tr>
+              <td class="param-name">Daily Comfort Hours</td>
+              ${this.configurations.map(c => {
+                const isBest = c.kpis.comfortHours === maxComfort && maxComfort > 0;
+                return `<td class="${isBest ? 'best-val' : ''}"><strong>${c.kpis.comfortHours} / 24 hrs</strong><br><span class="badge ${c.kpis.comfortStatusClass}">${c.kpis.comfortStatus}</span> ${isBest ? '<span class="best-badge">⭐ Best</span>' : ''}</td>`;
+              }).join('')}
+            </tr>
+            <tr>
+              <td class="param-name">Solar Heat Gain (Glazing)</td>
+              ${this.configurations.map(c => {
+                const isBest = c.kpis.solarHeatGainKWh === minSolarGain;
+                return `<td class="${isBest ? 'best-val' : ''}">${c.kpis.solarHeatGainKWh} kWh/day</td>`;
+              }).join('')}
+            </tr>
+            <tr>
+              <td class="param-name">Total Daily Heat Gain</td>
+              ${this.configurations.map(c => `<td>${c.kpis.totalHeatGainKWh} kWh/day</td>`).join('')}
+            </tr>
+            <tr>
+              <td class="param-name">Total Daily Heat Loss</td>
+              ${this.configurations.map(c => `<td>${c.kpis.totalHeatLossKWh} kWh/day</td>`).join('')}
+            </tr>
+            <tr>
+              <td class="param-name">Thermal Time Lag (ϕ)</td>
+              ${this.configurations.map(c => `<td>${c.kpis.timeLag} hours shift</td>`).join('')}
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    `;
+
+    return html;
+  }
+}
+
+/**
+ * PASSIVE SHELTER DESIGNER - Main Application Coordinator
+ * Handles user interactions, reactive UI updates, 3D synchronization,
+ * thermal simulation triggers, export features, and state persistence.
+ */
+
+class PassiveShelterApp {
+  constructor() {
+    this.viewer3D = null;
+    this.chartsManager = null;
+    this.comparisonManager = null;
+    this.lastSimulationResults = null;
+
+    // Active state
+    this.climate = { ...CLIMATE_PRESETS.hot_dry };
+    this.geometry = {
+      length: 5.0,
+      width: 4.0,
+      height: 3.0,
+      wallThickness: 0.23,
+      roofThickness: 0.15,
+      windowArea: 2.2,
+      doorArea: 1.8,
+      orientation: 0,
+      roofType: 'flat'
+    };
+    this.materials = {
+      wallMaterial: 'brick_common',
+      roofMaterial: 'rcc_slab',
+      floorMaterial: 'concrete_ground',
+      glazingType: 'single_clear'
+    };
+
+    this.activeSection = 'dashboard';
+  }
+
+  init() {
+    console.log("Initializing PASSIVE SHELTER DESIGNER...");
+
+    // Initialize sub-systems
+    this.viewer3D = new ShelterViewer3D('viewer3d-container');
+    this.chartsManager = new ShelterChartsManager();
+    this.comparisonManager = new DesignComparisonManager();
+
+    // Populate dropdowns & forms
+    this.populateSelectOptions();
+    this.syncFormFieldsWithState();
+    this.bindEvents();
+
+    // Pre-populate comparison baseline configurations for instant evaluation
+    this.seedDefaultComparisonVariants();
+
+    // Run initial baseline simulation
+    this.runThermalAnalysis();
+
+    // Setup tab navigation
+    this.setupNavigation();
+
+    // Trigger canvas size sync once DOM layout is settled
+    setTimeout(() => {
+      if (this.viewer3D) this.viewer3D.onWindowResize();
+    }, 250);
+  }
+
+  populateSelectOptions() {
+    // Wall materials
+    const wallSelect = document.getElementById('wall-material');
+    if (wallSelect) {
+      wallSelect.innerHTML = Object.entries(MATERIALS_DATABASE.walls).map(([key, mat]) => `
+        <option value="${key}">${mat.name} (k: ${mat.k}, ρ: ${mat.rho})</option>
+      `).join('');
+      wallSelect.value = this.materials.wallMaterial;
+    }
+
+    // Roof materials
+    const roofSelect = document.getElementById('roof-material');
+    if (roofSelect) {
+      roofSelect.innerHTML = Object.entries(MATERIALS_DATABASE.roofs).map(([key, mat]) => `
+        <option value="${key}">${mat.name} (α: ${mat.alpha}, k: ${mat.k})</option>
+      `).join('');
+      roofSelect.value = this.materials.roofMaterial;
+    }
+
+    // Floor materials
+    const floorSelect = document.getElementById('floor-material');
+    if (floorSelect) {
+      floorSelect.innerHTML = Object.entries(MATERIALS_DATABASE.floors).map(([key, mat]) => `
+        <option value="${key}">${mat.name} (k: ${mat.k})</option>
+      `).join('');
+      floorSelect.value = this.materials.floorMaterial;
+    }
+
+    // Glazing types
+    const glazingSelect = document.getElementById('glazing-type');
+    if (glazingSelect) {
+      glazingSelect.innerHTML = Object.entries(MATERIALS_DATABASE.glazing).map(([key, g]) => `
+        <option value="${key}">${g.name} (U: ${g.uValue}, SHGC: ${g.shgc})</option>
+      `).join('');
+      glazingSelect.value = this.materials.glazingType;
+    }
+
+    // Climate presets
+    const climateSelect = document.getElementById('climate-preset');
+    if (climateSelect) {
+      climateSelect.innerHTML = Object.entries(CLIMATE_PRESETS).map(([key, preset]) => `
+        <option value="${key}">${preset.name}</option>
+      `).join('');
+      climateSelect.value = 'hot_dry';
+    }
+  }
+
+  syncFormFieldsWithState() {
+    // Climate inputs
+    this.setInputValue('ambient-temp', this.climate.ambientTemp);
+    this.setInputValue('diurnal-range', this.climate.diurnalRange);
+    this.setInputValue('solar-radiation', this.climate.peakSolarRadiation);
+    this.setInputValue('relative-humidity', this.climate.relativeHumidity);
+    this.setInputValue('wind-speed', this.climate.windSpeed);
+    this.setInputValue('location-name', this.climate.location);
+
+    // Geometry inputs (numbers and sliders)
+    this.syncNumberAndRange('geom-length', 'geom-length-range', this.geometry.length);
+    this.syncNumberAndRange('geom-width', 'geom-width-range', this.geometry.width);
+    this.syncNumberAndRange('geom-height', 'geom-height-range', this.geometry.height);
+    this.syncNumberAndRange('geom-wall-thick', 'geom-wall-thick-range', this.geometry.wallThickness);
+    this.syncNumberAndRange('geom-roof-thick', 'geom-roof-thick-range', this.geometry.roofThickness);
+    this.syncNumberAndRange('geom-window-area', 'geom-window-area-range', this.geometry.windowArea);
+    this.syncNumberAndRange('geom-door-area', 'geom-door-area-range', this.geometry.doorArea);
+    this.syncNumberAndRange('geom-orientation', 'geom-orientation-range', this.geometry.orientation);
+
+    // Roof type radio / select
+    const roofTypeSelect = document.getElementById('geom-roof-type');
+    if (roofTypeSelect) roofTypeSelect.value = this.geometry.roofType;
+
+    this.updateMaterialPropertyBadges();
+  }
+
+  syncNumberAndRange(numId, rangeId, value) {
+    const numEl = document.getElementById(numId);
+    const rangeEl = document.getElementById(rangeId);
+    if (numEl) numEl.value = value;
+    if (rangeEl) rangeEl.value = value;
+  }
+
+  setInputValue(id, val) {
+    const el = document.getElementById(id);
+    if (el) el.value = val;
+  }
+
+  bindEvents() {
+    // 1. Climate Preset change
+    const climateSelect = document.getElementById('climate-preset');
+    if (climateSelect) {
+      climateSelect.addEventListener('change', (e) => {
+        const preset = CLIMATE_PRESETS[e.target.value];
+        if (preset) {
+          this.climate = { ...preset };
+          this.syncFormFieldsWithState();
+          this.showToast(`Applied Climate Preset: ${preset.name}`);
+          this.runThermalAnalysis();
+        }
+      });
+    }
+
+    // Climate manual inputs
+    const climateInputs = ['ambient-temp', 'diurnal-range', 'solar-radiation', 'relative-humidity', 'wind-speed', 'location-name'];
+    climateInputs.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.addEventListener('input', () => {
+          this.readClimateFromInputs();
+          const presetSelect = document.getElementById('climate-preset');
+          if (presetSelect && presetSelect.value !== 'custom') {
+            presetSelect.value = 'custom';
+          }
+        });
+      }
+    });
+
+    // 2. Geometry inputs (two-way sync between number and range sliders)
+    const geomPairs = [
+      { num: 'geom-length', range: 'geom-length-range', key: 'length' },
+      { num: 'geom-width', range: 'geom-width-range', key: 'width' },
+      { num: 'geom-height', range: 'geom-height-range', key: 'height' },
+      { num: 'geom-wall-thick', range: 'geom-wall-thick-range', key: 'wallThickness' },
+      { num: 'geom-roof-thick', range: 'geom-roof-thick-range', key: 'roofThickness' },
+      { num: 'geom-window-area', range: 'geom-window-area-range', key: 'windowArea' },
+      { num: 'geom-door-area', range: 'geom-door-area-range', key: 'doorArea' },
+      { num: 'geom-orientation', range: 'geom-orientation-range', key: 'orientation' }
+    ];
+
+    geomPairs.forEach(({ num, range, key }) => {
+      const numEl = document.getElementById(num);
+      const rangeEl = document.getElementById(range);
+      if (numEl && rangeEl) {
+        numEl.addEventListener('input', () => {
+          let val = parseFloat(numEl.value);
+          if (isNaN(val)) val = 1;
+          rangeEl.value = val;
+          this.geometry[key] = val;
+          this.onGeometryUpdated();
+        });
+        rangeEl.addEventListener('input', () => {
+          const val = parseFloat(rangeEl.value);
+          numEl.value = val;
+          this.geometry[key] = val;
+          this.onGeometryUpdated();
+        });
+      }
+    });
+
+    // Roof Type selector
+    const roofTypeSelect = document.getElementById('geom-roof-type');
+    if (roofTypeSelect) {
+      roofTypeSelect.addEventListener('change', (e) => {
+        this.geometry.roofType = e.target.value;
+        this.onGeometryUpdated();
+      });
+    }
+
+    // 3. Materials selector change
+    const matSelectors = [
+      { id: 'wall-material', key: 'wallMaterial' },
+      { id: 'roof-material', key: 'roofMaterial' },
+      { id: 'floor-material', key: 'floorMaterial' },
+      { id: 'glazing-type', key: 'glazingType' }
+    ];
+
+    matSelectors.forEach(({ id, key }) => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.addEventListener('change', (e) => {
+          this.materials[key] = e.target.value;
+          this.updateMaterialPropertyBadges();
+          if (this.viewer3D) {
+            this.viewer3D.rebuildShelter(this.geometry, this.materials);
+          }
+        });
+      }
+    });
+
+    // 4. Prominent Run Thermal Analysis Button
+    const runBtn = document.getElementById('btn-run-simulation');
+    if (runBtn) {
+      runBtn.addEventListener('click', () => {
+        this.animateSimulationRun();
+      });
+    }
+
+    // Top action bar Run button
+    const runBtnTop = document.getElementById('btn-run-simulation-top');
+    if (runBtnTop) {
+      runBtnTop.addEventListener('click', () => {
+        this.animateSimulationRun();
+      });
+    }
+
+    // Reset Button
+    const resetBtn = document.getElementById('btn-reset-defaults');
+    if (resetBtn) {
+      resetBtn.addEventListener('click', () => {
+        this.resetToDefaults();
+      });
+    }
+
+    // Save to Comparison Button
+    const saveCfgBtn = document.getElementById('btn-save-comparison');
+    if (saveCfgBtn) {
+      saveCfgBtn.addEventListener('click', () => {
+        this.promptSaveConfiguration();
+      });
+    }
+
+    // Export CSV Button
+    const exportBtn = document.getElementById('btn-export-results');
+    if (exportBtn) {
+      exportBtn.addEventListener('click', () => {
+        this.exportResultsCSV();
+      });
+    }
+
+    // Print Report Button
+    const printBtn = document.getElementById('btn-print-report');
+    if (printBtn) {
+      printBtn.addEventListener('click', () => {
+        window.print();
+      });
+    }
+
+    // 3D Viewport Controls
+    const btnHeatmap = document.getElementById('btn-toggle-heatmap');
+    if (btnHeatmap) {
+      btnHeatmap.addEventListener('click', () => {
+        if (this.viewer3D) {
+          const isHeatmap = this.viewer3D.toggleHeatmapMode();
+          btnHeatmap.classList.toggle('active', isHeatmap);
+          btnHeatmap.textContent = isHeatmap ? '🔥 Heatmap Active' : '🌡️ Heatmap Mode';
+        }
+      });
+    }
+
+    const btnCameraReset = document.getElementById('btn-camera-reset');
+    if (btnCameraReset) {
+      btnCameraReset.addEventListener('click', () => {
+        if (this.viewer3D) this.viewer3D.setCameraView('isometric');
+      });
+    }
+
+    const btnCameraTop = document.getElementById('btn-camera-top');
+    if (btnCameraTop) {
+      btnCameraTop.addEventListener('click', () => {
+        if (this.viewer3D) this.viewer3D.setCameraView('top');
+      });
+    }
+
+    const btnCameraFront = document.getElementById('btn-camera-front');
+    if (btnCameraFront) {
+      btnCameraFront.addEventListener('click', () => {
+        if (this.viewer3D) this.viewer3D.setCameraView('front');
+      });
+    }
+
+    // Solar time slider for 3D sun direction
+    const sunSlider = document.getElementById('sun-hour-slider');
+    const sunLabel = document.getElementById('sun-hour-label');
+    if (sunSlider) {
+      sunSlider.addEventListener('input', (e) => {
+        const hour = parseInt(e.target.value);
+        if (sunLabel) sunLabel.textContent = `${String(hour).padStart(2, '0')}:00`;
+        this.updateSunPosition(hour);
+      });
+    }
+  }
+
+  readClimateFromInputs() {
+    this.climate.ambientTemp = parseFloat(document.getElementById('ambient-temp')?.value) || 35.0;
+    this.climate.diurnalRange = parseFloat(document.getElementById('diurnal-range')?.value) || 12.0;
+    this.climate.peakSolarRadiation = parseFloat(document.getElementById('solar-radiation')?.value) || 850;
+    this.climate.relativeHumidity = parseFloat(document.getElementById('relative-humidity')?.value) || 30;
+    this.climate.windSpeed = parseFloat(document.getElementById('wind-speed')?.value) || 3.0;
+    this.climate.location = document.getElementById('location-name')?.value || "Custom Site";
+    this.climate.groundTemp = this.climate.ambientTemp - 2.5;
+  }
+
+  onGeometryUpdated() {
+    if (this.viewer3D) {
+      this.viewer3D.rebuildShelter(this.geometry, this.materials);
+    }
+    this.updateMaterialPropertyBadges();
+  }
+
+  updateSunPosition(hour) {
+    if (!this.viewer3D) return;
+    const solarData = get24HourSolarIrradiance(this.climate.latitude || 25, this.climate.peakSolarRadiation || 800, this.geometry.orientation, this.geometry.roofType);
+    const curr = solarData[hour] || solarData[12];
+    this.viewer3D.setSolarTime(hour, curr.solarAzimuthDeg, curr.betaDeg);
+  }
+
+  updateMaterialPropertyBadges() {
+    const U_wall = calculateOpaqueUValue(this.materials.wallMaterial, 'walls', this.geometry.wallThickness);
+    const U_roof = calculateOpaqueUValue(this.materials.roofMaterial, 'roofs', this.geometry.roofThickness);
+    const U_floor = calculateOpaqueUValue(this.materials.floorMaterial, 'floors', 0.1);
+    const glazing = MATERIALS_DATABASE.glazing[this.materials.glazingType] || MATERIALS_DATABASE.glazing.single_clear;
+
+    const wallBadge = document.getElementById('badge-u-wall');
+    const roofBadge = document.getElementById('badge-u-roof');
+    const floorBadge = document.getElementById('badge-u-floor');
+    const winBadge = document.getElementById('badge-u-win');
+
+    if (wallBadge) wallBadge.textContent = `U: ${U_wall} W/m²K`;
+    if (roofBadge) roofBadge.textContent = `U: ${U_roof} W/m²K`;
+    if (floorBadge) floorBadge.textContent = `U: ${U_floor} W/m²K`;
+    if (winBadge) winBadge.textContent = `U: ${glazing.uValue} W/m²K (SHGC: ${glazing.shgc})`;
+
+    // Material Details Card
+    const wallMat = MATERIALS_DATABASE.walls[this.materials.wallMaterial];
+    const roofMat = MATERIALS_DATABASE.roofs[this.materials.roofMaterial];
+    const detailBox = document.getElementById('material-details-summary');
+    if (detailBox && wallMat && roofMat) {
+      detailBox.innerHTML = `
+        <div class="prop-row"><span>Wall Material:</span><strong>${wallMat.name}</strong></div>
+        <div class="prop-row"><span>Conductivity (k):</span><strong>${wallMat.k} W/m·K</strong></div>
+        <div class="prop-row"><span>Density (ρ):</span><strong>${wallMat.rho} kg/m³</strong></div>
+        <div class="prop-row"><span>Specific Heat (cp):</span><strong>${wallMat.cp} J/kg·K</strong></div>
+        <div class="prop-row"><span>Roof Absorptivity (α):</span><strong>${roofMat.alpha}</strong> (${roofMat.alpha <= 0.3 ? 'Cool Reflective' : 'Standard Dark'})</div>
+      `;
+    }
+  }
+
+  animateSimulationRun() {
+    const btn = document.getElementById('btn-run-simulation');
+    const btnTop = document.getElementById('btn-run-simulation-top');
+    if (btn) {
+      btn.disabled = true;
+      btn.innerHTML = `<span class="spinner"></span> Solving Energy Balance...`;
+    }
+    if (btnTop) {
+      btnTop.disabled = true;
+    }
+
+    setTimeout(() => {
+      this.readClimateFromInputs();
+      this.runThermalAnalysis();
+      if (btn) {
+        btn.disabled = false;
+        btn.innerHTML = `🚀 RUN THERMAL ANALYSIS`;
+      }
+      if (btnTop) {
+        btnTop.disabled = false;
+      }
+      this.showToast(`Simulation complete: Periodic steady-state reached.`);
+    }, 250);
+  }
+
+  runThermalAnalysis() {
+    this.readClimateFromInputs();
+    const results = ThermalSimulationEngine.runSimulation(this.climate, this.geometry, this.materials);
+    this.lastSimulationResults = results;
+
+    // Update KPI Cards
+    this.updateKPICards(results.kpis);
+
+    // Update Charts
+    if (this.chartsManager) {
+      this.chartsManager.render24HourTempChart('chart-24h-temp', results.timeSeries, {
+        lower: results.kpis.comfortLowerLimit,
+        upper: results.kpis.comfortUpperLimit
+      });
+
+      this.chartsManager.renderHeatBreakdownChart('chart-heat-breakdown', results.energyBreakdown);
+
+      const configs = this.comparisonManager.getConfigurations();
+      const outdoorTemps = results.timeSeries.map(d => d.outdoorTemp);
+      this.chartsManager.renderComparisonChart('chart-comparison', outdoorTemps, configs, {
+        lower: results.kpis.comfortLowerLimit,
+        upper: results.kpis.comfortUpperLimit
+      });
+    }
+
+    // Update Adaptive Comfort Indicator & Insights
+    this.updateComfortDisplay(results.kpis, results.envelopes);
+
+    // Update 3D Solar at noon
+    this.updateSunPosition(12);
+
+    // Update Comparison table
+    this.renderComparisonTable();
+
+    return results;
+  }
+
+  updateKPICards(kpis) {
+    this.setText('kpi-mean-temp', `${kpis.meanIndoorTemp} °C`);
+    this.setText('kpi-max-temp', `${kpis.maxIndoorTemp} °C`);
+    this.setText('kpi-min-temp', `${kpis.minIndoorTemp} °C`);
+    this.setText('kpi-temp-swing', `±${kpis.tempSwing} °C`);
+    this.setText('kpi-decrement-factor', `Decrement factor: f = ${kpis.decrementFactor}`);
+    this.setText('kpi-solar-gain', `${kpis.solarHeatGainKWh} kWh/d`);
+    this.setText('kpi-total-gain', `${kpis.totalHeatGainKWh} kWh/d`);
+    this.setText('kpi-total-loss', `${kpis.totalHeatLossKWh} kWh/d`);
+    this.setText('kpi-comfort-hours', `${kpis.comfortHours} hrs/day`);
+    this.setText('kpi-comfort-badge', kpis.comfortStatus);
+
+    const badge = document.getElementById('kpi-comfort-badge');
+    if (badge) {
+      badge.className = `kpi-badge ${kpis.comfortStatusClass}`;
+    }
+  }
+
+  updateComfortDisplay(kpis, envelopes) {
+    const comfortBox = document.getElementById('comfort-assessment-summary');
+    if (!comfortBox) return;
+
+    let advice = "";
+    if (kpis.comfortHours >= 18) {
+      advice = "The building envelope possesses high thermal inertia and sufficient damping. Day-night temperature fluctuation is effectively moderated within the adaptive comfort envelope.";
+    } else if (kpis.warmHours > 8) {
+      advice = "Overheating observed during peak solar hours. Recommendations: reduce solar absorptivity with a Cool Roof coating (α ≤ 0.25), enhance nocturnal cross-ventilation, and add exterior window shading.";
+    } else if (kpis.coldHours > 8) {
+      advice = "Under-heating observed. Recommendations: increase south-facing direct solar glazing, improve envelope insulation (lower U-value), and minimize uncontrolled draft infiltration.";
+    } else {
+      advice = "Moderate thermal conditions. Diurnal temperature swing is partially damped. Fine-tune window-to-wall ratio and wall thickness to expand comfort duration.";
+    }
+
+    comfortBox.innerHTML = `
+      <div class="comfort-header">
+        <div class="comfort-score">${kpis.comfortHours} / 24 <span class="unit">Comfort Hours</span></div>
+        <div class="kpi-badge ${kpis.comfortStatusClass}">${kpis.comfortStatus}</div>
+      </div>
+      <div class="comfort-limits-bar">
+        <span>Adaptive Neutral: <strong>${kpis.neutralComfortTemp}°C</strong></span>
+        <span>Acceptable Comfort Range: <strong>${kpis.comfortLowerLimit}°C — ${kpis.comfortUpperLimit}°C</strong></span>
+      </div>
+      <p class="comfort-description">${advice}</p>
+      <div class="meta-metrics-grid">
+        <div class="meta-item"><label>Thermal Time Lag (ϕ):</label> <strong>${kpis.timeLag} hours</strong></div>
+        <div class="meta-item"><label>Decrement Factor (f):</label> <strong>${kpis.decrementFactor}</strong></div>
+        <div class="meta-item"><label>Effective Mass Heat Cap:</label> <strong>${envelopes.thermalCapacitanceMJ} MJ/K</strong></div>
+        <div class="meta-item"><label>Ventilation Rate:</label> <strong>${envelopes.totalACH} ACH</strong></div>
+      </div>
+    `;
+  }
+
+  promptSaveConfiguration() {
+    if (!this.lastSimulationResults) return;
+    const defaultName = `Shelter Variant ${this.comparisonManager.getConfigurations().length + 1} (${MATERIALS_DATABASE.walls[this.materials.wallMaterial]?.name.split(' ')[0]} + ${this.geometry.roofType})`;
+    const name = prompt("Enter a descriptive name for this shelter design configuration:", defaultName);
+    if (name) {
+      this.comparisonManager.saveConfiguration(name, this.climate, this.geometry, this.materials, this.lastSimulationResults);
+      this.renderComparisonTable();
+      this.updateComparisonChart();
+      this.showToast(`Saved configuration: "${name}" to comparison matrix.`);
+    }
+  }
+
+  seedDefaultComparisonVariants() {
+    // 1. Baseline Standard Brick with RCC Roof
+    const resA = ThermalSimulationEngine.runSimulation(this.climate, this.geometry, {
+      wallMaterial: 'brick_common',
+      roofMaterial: 'rcc_slab',
+      floorMaterial: 'concrete_ground',
+      glazingType: 'single_clear'
+    });
+    this.comparisonManager.saveConfiguration("Baseline 1: Standard Brick + RCC Slab", this.climate, this.geometry, {
+      wallMaterial: 'brick_common',
+      roofMaterial: 'rcc_slab',
+      floorMaterial: 'concrete_ground',
+      glazingType: 'single_clear'
+    }, resA);
+
+    // 2. High Performance Passive: CSEB + Cool Roof + Low-E
+    const resB = ThermalSimulationEngine.runSimulation(this.climate, { ...this.geometry, wallThickness: 0.28, roofType: 'flat' }, {
+      wallMaterial: 'cseb',
+      roofMaterial: 'cool_roof',
+      floorMaterial: 'concrete_ground',
+      glazingType: 'low_e_double'
+    });
+    this.comparisonManager.saveConfiguration("Passive Optimized: CSEB + Cool Roof (High Mass)", this.climate, { ...this.geometry, wallThickness: 0.28, roofType: 'flat' }, {
+      wallMaterial: 'cseb',
+      roofMaterial: 'cool_roof',
+      floorMaterial: 'concrete_ground',
+      glazingType: 'low_e_double'
+    }, resB);
+  }
+
+  removeConfig(configId) {
+    this.comparisonManager.removeConfiguration(configId);
+    this.renderComparisonTable();
+    this.updateComparisonChart();
+  }
+
+  renderComparisonTable() {
+    const container = document.getElementById('comparison-table-container');
+    if (container) {
+      container.innerHTML = this.comparisonManager.generateComparisonTableHTML();
+    }
+  }
+
+  updateComparisonChart() {
+    if (!this.chartsManager || !this.lastSimulationResults) return;
+    const configs = this.comparisonManager.getConfigurations();
+    const outdoorTemps = this.lastSimulationResults.timeSeries.map(d => d.outdoorTemp);
+    this.chartsManager.renderComparisonChart('chart-comparison', outdoorTemps, configs, {
+      lower: this.lastSimulationResults.kpis.comfortLowerLimit,
+      upper: this.lastSimulationResults.kpis.comfortUpperLimit
+    });
+  }
+
+  resetToDefaults() {
+    if (!confirm("Reset all geometry, material, and climate parameters to baseline values?")) return;
+    this.climate = { ...CLIMATE_PRESETS.hot_dry };
+    this.geometry = {
+      length: 5.0,
+      width: 4.0,
+      height: 3.0,
+      wallThickness: 0.23,
+      roofThickness: 0.15,
+      windowArea: 2.2,
+      doorArea: 1.8,
+      orientation: 0,
+      roofType: 'flat'
+    };
+    this.materials = {
+      wallMaterial: 'brick_common',
+      roofMaterial: 'rcc_slab',
+      floorMaterial: 'concrete_ground',
+      glazingType: 'single_clear'
+    };
+
+    const presetSelect = document.getElementById('climate-preset');
+    if (presetSelect) presetSelect.value = 'hot_dry';
+
+    this.syncFormFieldsWithState();
+    if (this.viewer3D) {
+      this.viewer3D.rebuildShelter(this.geometry, this.materials);
+    }
+    this.runThermalAnalysis();
+    this.showToast("Parameters reset to engineering baseline.");
+  }
+
+  exportResultsCSV() {
+    if (!this.lastSimulationResults) return;
+    const res = this.lastSimulationResults;
+
+    let csv = "PASSIVE SHELTER DESIGNER - THERMAL ANALYSIS REPORT\n";
+    csv += "Project: Software Based Model Development for Design of Area-Specific Shelter for Thermal Comfort Maintenance\n";
+    csv += `Timestamp,${res.metadata.timestamp}\n`;
+    csv += `Location / Climate,${this.climate.location} (Ambient: ${this.climate.ambientTemp} C, Swing: ${this.climate.diurnalRange} C)\n`;
+    csv += `Shelter Dimensions,L=${this.geometry.length}m x W=${this.geometry.width}m x H=${this.geometry.height}m (Vol=${res.envelopes.volume} m3)\n`;
+    csv += `Wall Construction,${MATERIALS_DATABASE.walls[this.materials.wallMaterial]?.name} (U=${res.envelopes.U_wall} W/m2K)\n`;
+    csv += `Roof Construction,${MATERIALS_DATABASE.roofs[this.materials.roofMaterial]?.name} (U=${res.envelopes.U_roof} W/m2K)\n`;
+    csv += `Glazing,${MATERIALS_DATABASE.glazing[this.materials.glazingType]?.name} (U=${res.envelopes.U_win} W/m2K)\n\n`;
+
+    csv += "KEY PERFORMANCE INDICATORS (Model-based Estimated Results)\n";
+    csv += `Mean Indoor Temp (C),${res.kpis.meanIndoorTemp}\n`;
+    csv += `Max Indoor Temp (C),${res.kpis.maxIndoorTemp}\n`;
+    csv += `Min Indoor Temp (C),${res.kpis.minIndoorTemp}\n`;
+    csv += `Temperature Swing (C),${res.kpis.tempSwing}\n`;
+    csv += `Decrement Factor (f),${res.kpis.decrementFactor}\n`;
+    csv += `Thermal Time Lag (hrs),${res.kpis.timeLag}\n`;
+    csv += `Solar Heat Gain (Glazing) (kWh/day),${res.kpis.solarHeatGainKWh}\n`;
+    csv += `Total Daily Heat Gain (kWh/day),${res.kpis.totalHeatGainKWh}\n`;
+    csv += `Total Daily Heat Loss (kWh/day),${res.kpis.totalHeatLossKWh}\n`;
+    csv += `Adaptive Thermal Comfort Hours / 24 hrs,${res.kpis.comfortHours}\n`;
+    csv += `Comfort Status,${res.kpis.comfortStatus}\n\n`;
+
+    csv += "24-HOUR HOURLY SIMULATION TIME SERIES\n";
+    csv += "Hour,Time,Outdoor Temp (C),Indoor Temp (C),Sol-Air Roof Temp (C),Roof Heat Flow (W),Walls Heat Flow (W),Floor Heat Flow (W),Windows Heat Flow (W),Ventilation Flow (W),Net Heat Flow (W)\n";
+
+    res.timeSeries.forEach(r => {
+      csv += `${r.hour},${r.timeLabel},${r.outdoorTemp},${r.indoorTemp},${r.solAirRoofTemp},${r.heatGainRoof},${r.heatGainWalls},${r.heatGainFloor},${r.heatGainWindows},${r.heatGainVentilation},${r.netHeatGain}\n`;
+    });
+
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", `Passive_Shelter_Thermal_Report_${Date.now()}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    this.showToast("Exported simulation dataset to CSV.");
+  }
+
+  setupNavigation() {
+    const navItems = document.querySelectorAll('.sidebar-nav-item');
+    navItems.forEach(item => {
+      item.addEventListener('click', (e) => {
+        e.preventDefault();
+        const targetSection = item.getAttribute('data-target');
+        if (targetSection) {
+          this.switchSection(targetSection);
+        }
+      });
+    });
+  }
+
+  switchSection(sectionId) {
+    this.activeSection = sectionId;
+    
+    // Update active nav link
+    document.querySelectorAll('.sidebar-nav-item').forEach(item => {
+      item.classList.toggle('active', item.getAttribute('data-target') === sectionId);
+    });
+
+    // Update visible section card
+    document.querySelectorAll('.app-panel-section').forEach(sec => {
+      if (sec.id === `section-${sectionId}`) {
+        sec.classList.remove('hidden');
+        sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } else {
+        // In full dashboard view, keep all visible or filter depending on section
+        // Here we highlight and smooth scroll to section
+      }
+    });
+
+    // If 3D view is visible, trigger resize refresh
+    if (this.viewer3D) {
+      setTimeout(() => this.viewer3D.onWindowResize(), 100);
+    }
+  }
+
+  showToast(message) {
+    let toast = document.getElementById('app-toast');
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.id = 'app-toast';
+      document.body.appendChild(toast);
+    }
+    toast.textContent = message;
+    toast.className = 'toast-show';
+    setTimeout(() => {
+      toast.className = '';
+    }, 3200);
+  }
+
+  setText(id, text) {
+    const el = document.getElementById(id);
+    if (el) el.textContent = text;
+  }
+}
+
+// Global instance initialization on DOM Ready
+document.addEventListener('DOMContentLoaded', () => {
+  window.app = new PassiveShelterApp();
+  window.app.init();
+});
+
+</script>
+
+</body>
+</html>
